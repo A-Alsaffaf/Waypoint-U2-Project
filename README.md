@@ -45,4 +45,47 @@ Built as a General Assembly Unit 2 project to demonstrate full-stack CRUD, RESTf
 
 ## Database Design 
 
-![Waypoint Project ERD](waypoint.ERD.png)
+![alt text](docs/waypoint.ERD.png)
+
+## Routes
+
+### Dashboard
+
+| Method | Route  |       Description       |
+|:------:|:-----: |:-----------------------:|
+| GET    |  ` / ` | View Dashboard/Homepage |
+
+### Job Entries 
+
+| Method |      Route     |             Description             |
+|:------:|:--------------:|:-----------------------------------:|
+|   GET  | `/jobs  `        | View Job Entires Page               |
+|   GET  | `/jobs/new `     | View Create Job Entry Page          |
+|  POST  | `/jobs  `        | Submit form to save Job Entry       |
+|   GET  | `/jobs/:id/`     | View Job Entry Details              |
+|   GET  | `/jobs/:id/edit` | View Edit Job Entries Page          |
+|   PUT  | `/jobs/:id`      | Submit form to Update Job Entry     |
+| DELETE | `/jobs/:id `     | Submit form to make isDeleted: true |
+
+### Learning Entires
+
+| Method |        Route        |              Description             |
+|:------:|:-------------------:|:------------------------------------:|
+|   GET  | `/learnings`          | View Learning Entries Page           |
+|   GET  | `/learnings/new`      | View Create Learning Entry Page      |
+|  POST  | `/learnings`          | Submit form to save Learning Entry   |
+|   GET  | `/learnings/:id/`     | View Job Learning Entry Details      |
+|   GET  | `/learnings/:id/edit` | View Edit Learning Entry Page        |
+|   PUT  | `/learnings/:id`      | Submit form to Update Learning Entry |
+| DELETE | `/learnings/:id`      | Submit form to make isDeleted: true  |
+
+### Todos 
+
+| Method |      Route      |               Description              |
+|:------:|:---------------:|:--------------------------------------:|
+|   GET  | /todos          | View todo lists Page                   |
+|   GET  | /todos/new      | View Create todo list Page             |
+|  POST  | /todos          | Submit form to save the todo in the DB |
+|   GET  | /todos/:id/edit | View and edit the todo list            |
+|   PUT  | /todos/:id      | Submit form to Update a specific todo  |
+| DELETE | /todos/:id      | Submit form to soft delete the todo    |
