@@ -1,0 +1,38 @@
+const mongoose = require('mongoose')
+
+const todoSchema = new mongoose.Schema({
+    checkList: [{
+        description: {
+            type: String, 
+            required: true,  
+            trim: true
+        },
+        isChecked: {
+            type: Boolean,
+            default: false
+        }
+    }],
+    entryType: {
+        type: String,
+        enum: ['Job', 'LearningEntry'],
+        default: null
+    },
+    entryId: {
+        type: Schema.Types.ObjectId,
+        refPath: 'entryType',
+        default: null
+    },
+    owner: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+        required: true,
+    },
+    isDeleted: {
+        type: Boolean,
+        default: false
+    }
+})
+
+const Todo = mongoose.model('Todo', todoSchema)
+
+module.exports = Todo
