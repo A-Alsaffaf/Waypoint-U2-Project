@@ -41,13 +41,15 @@ const jobSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Todo',
     },
-    learningEntry: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'LearningEntry'
+    learningEntries: {
+        type: [mongoose.Schema.Types.ObjectId],
+        ref: 'Learning',
+        default: []
     },
     owner: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'User'
+        ref: 'User',
+        required: true
     }
 })
 
