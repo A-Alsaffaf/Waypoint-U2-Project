@@ -11,7 +11,9 @@ const learningSchema = new mongoose.Schema({
     }, 
     area: {
         type: String,
-        enum: ['Networking', 'Programming', 'Machine Learning',' Cybersecurity', 'other']
+        enum: ['Networking', 'Programming', 'Machine Learning','Cybersecurity', 'other'],
+        required: true,
+        default: 'other'
     },
     resourceLink: {
         type: String,
@@ -20,14 +22,15 @@ const learningSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Todo'
     },
-    linkedJob: {
+    linkedJobs: {
         type: [mongoose.Schema.Types.ObjectId],
         ref: 'Job',
         default: []
     },
     owner: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'User'
+        ref: 'User',
+        required: true
     },
     isDeleted: {
         type: Boolean,

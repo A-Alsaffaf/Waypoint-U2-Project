@@ -21,6 +21,7 @@ const jobSchema = new mongoose.Schema({
     },
     postingLink: {
         type: String,
+        default: null
     },
     Salary: {
         type: Number,
@@ -28,10 +29,14 @@ const jobSchema = new mongoose.Schema({
     },
     location: {
         type: String,
+        default: null
     },
     applicationMethod: {
         type: String,
-        enum: ['LinkedIn', 'Indeed', 'MOL', 'Company Website', 'Email', 'Referral', 'Manual',  'other']
+        enum: ['LinkedIn', 'Indeed', 'MOL', 'Company Website', 'Email', 'Referral', 'Manual',  'other'],
+        required: true,
+        default: 'other',
+        trim: true
     }, 
     isDeleted: {
         type: Boolean,
