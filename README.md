@@ -45,7 +45,7 @@ Built as a General Assembly Unit 2 project to demonstrate full-stack CRUD, RESTf
 
 ## Database Design 
 
-![alt text](docs/waypoint.ERD.png)
+![alt text](./docs/waypoint.ERD.png)
 
 ## Routes
 
