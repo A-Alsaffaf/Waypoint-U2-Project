@@ -14,11 +14,11 @@ const todoSchema = new mongoose.Schema({
     }],
     entryType: {
         type: String,
-        enum: ['Job', 'LearningEntry'],
+        enum: ['Job', 'Learning'],
         default: null
     },
     entryId: {
-        type: Schema.Types.ObjectId,
+        type: mongoose.Schema.Types.ObjectId,
         refPath: 'entryType',
         default: null
     },
