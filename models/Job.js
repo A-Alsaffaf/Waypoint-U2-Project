@@ -23,7 +23,7 @@ const jobSchema = new mongoose.Schema({
         type: String,
         default: null
     },
-    Salary: {
+    salary: {
         type: Number,
         default: null
     },

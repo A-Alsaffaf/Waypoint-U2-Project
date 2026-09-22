@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Job Entry</title>
+</head>
+<body>
+    <h1>Track a New Job Listing</h1>
+
+    <form action="/jobs" method="post">
+        <label for="title">Job Title: </label>
+        <input type="text" id="title" name="title">
+        
+        <label for="company">Company: </label>
+        <input type="text" id="company" name="company">
+
+        <label for="jobType">Type: </label>
+        <select name="jobType" id="jobType">
+            <% for(type of jobTypes) { %>
+                <option value="<%= type %>"><%= type  %></option>
+            <% } %>
+        </select>
+
+        <label for="status">Status: </label>
+        <select name="status" id="status">
+            <% for(status of statusElements) { %>
+                <option value="<%= status %>"><%= status  %></option>
+            <% } %>
+        </select>
+
+        <label for="applicationMethod">Application Method: </label>
+        <select name="applicationMethod" id="applicationMethod">
+            <% for(method of applicationMethods) { %>
+                <option value="<%= method %>"><%= method  %></option>
+            <% } %>
+        </select>
+
+        <label for="salary">Salary: </label>
+        <input type="text" id="salary" name="salary">
+
+        <label for="postingLink">Job Posting URL: </label>
+        <input type="text" id="postingLink" name="postingLink">
+
+        <label for="location">Location: </label>
+        <input type="text" id="location" name="location">
+
+        <label for="todo">Todo: </label>
+        <input type="text" id="todo" name="todo">
+
+        <!-- <label for="title">Job Title: </label> -->
+        
+
+        <button type="submit">Save Job</button>
+    </form>
+</body>
+</html>
