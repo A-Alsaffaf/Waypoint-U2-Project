@@ -49,6 +49,12 @@
         <input type="text" id="todo" name="todo">
 
         <!-- <label for="title">Job Title: </label> -->
+
+        <select multiple name="learningEntries" id="">
+            <% for(let learning of learningEntries){ %>
+                <option value="<%= learning._id %>"><%= learning.name %></option>
+            <% } %>
+        </select>
         
 
         <button type="submit">Save Job</button>

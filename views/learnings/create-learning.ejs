@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Learning</title>
+</head>
+<body>
+    <h1>Create a Learning Entry</h1>
+
+    <form action="/learnings" method="post">
+        <label for="learningName">Name: </label>
+        <input type="text" id="learningName" name="name">
+
+        <label for="notes">Notes: </label>
+        <input type="text" id="notes" name="notes">
+
+        <label for="learningArea">Learning Area:</label>
+        <select name="area" id="learningArea">
+            <% for(area of areaEnums) { %>
+                <option value="<%= area %>"><%= area %></option>
+            <% } %>
+        </select>
+
+        <label for="resourceLink">Resource URL: </label>
+        <input type="text" name="resourceLink" id="resourceLink">
+
+        <label for="linkedJobs">Link Jobs: </label>
+        <select multiple name="linkedJobs" id="linkedJobs">
+            <% for(let job of availableJobs) { %>
+                <option value="<%= job._id %>"><%= job.title  %></option>
+            <% } %>
+        </select>
+
+        <button type="submit">Save Learning Entry</button>
+    </form>
+</body>
+</html>
