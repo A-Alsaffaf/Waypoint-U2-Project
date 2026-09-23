@@ -2,10 +2,12 @@ const router = require('express').Router()
 const Job = require('../models/Job')
 const Learning = require('../models/Learning')
 const Todo = require('../models/Todo')
+const isSignedIn = require('../middleware/is-signed-in')
 
 // page render routes
-router.get('/', (req,res) => {
-    res.render('../views/job/all-jobs.ejs')
+router.get('/', async (req,res) => {
+    const allJobs = await Job.find({owner: req.session.user._id, isDeleted: false}) 
+    res.render('../views/job/all-jobs.ejs', {allJobs: allJobs})
 })
 
 router.get('/new',async (req,res) => {
@@ -15,6 +17,22 @@ router.get('/new',async (req,res) => {
     const learningEntries = await Learning.find({owner:req.session.user._id})
     res.render('../views/job/create-job.ejs', {statusElements, jobTypes, applicationMethods, learningEntries})
 })
+
+router.get ('/:jobId', async (req,res) => {
+    const foundJob = await Job.findById(req.params.jobId)
+    res.render('../views/job/job-details.ejs', {foundJob})
+})
+
+router.get('/:jobID/edit', async (req,res) => {
+    const foundJob = await Job.findById(req.params.jobID)
+    const statusElements = Job.schema.path('status').enumValues
+    const jobTypes = Job.schema.path('jobType').enumValues
+    const applicationMethods = Job.schema.path('applicationMethod').enumValues
+    const learningEntries = await Learning.find({owner:req.session.user._id})
+    res.render('../views/job/edit-job.ejs', {statusElements, jobTypes, applicationMethods, learningEntries, foundJob})
+})
+
+
 
 // form submission routes
 router.post('/', async (req,res) => {
@@ -46,5 +64,27 @@ router.post('/', async (req,res) => {
     })
     res.redirect('/jobs')
 })
+
+router.put('/:jobId', isSignedIn , async (req,res) => {
+    const updatedJob = await Job.findByIdAndUpdate(req.params.jobId, {
+        title: req.body.title,
+        company: req.body.company,
+        jobType: req.body.jobType,
+        status: req.body.status,
+        postingLink: req.body.postingLink,
+        salary: req.body.salary,
+        location: req.body.location,
+        applicationMethod: req.body.applicationMethod,
+        learningEntries: req.body.learningEntries,
+    })
+    res.redirect(`/jobs/${req.params.jobId}`)
+})
+
+router.delete('/:jobId', async (req,res) => {
+    const softDeletedJob = await Job.findByIdAndUpdate(req.params.jobId, {isDeleted: true})
+    res.redirect('/jobs')
+})
+
+
 
 module.exports = router

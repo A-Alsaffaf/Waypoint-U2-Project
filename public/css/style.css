@@ -1,0 +1,18 @@
+.entries-container{
+    display: grid;
+    grid-template-columns: auto auto auto;
+    /* background-color: aquamarine; */
+    padding: 10px;
+    column-gap: 5px;
+    row-gap: 5px;
+}
+
+.entries-container div {
+    background-color: navy;
+    border: solid;
+    border-color: cyan;
+    text-align: center;
+    border-radius: 20px;
+    color: antiquewhite;
+    padding: 1%;
+}
