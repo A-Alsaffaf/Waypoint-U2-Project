@@ -3,9 +3,31 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>All Learnings</title>
+    <title>All Learning Entries</title>
+    <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
     <h1>All Learning Entries</h1>
+
+    <div class="entries-container">
+    <% for (learning of allLearnings) { %>
+        <div>
+            <h2><%= learning.name %></h2>
+            <p><b><%= learning.notes  %></b></p>
+            <p><b><%= learning.area  %></b></p>
+            <% for (job of learning.linkedJobs) { %>
+            <p><b><%= job.title  %></b></p>
+            <% } %>
+
+            <div class="entry-buttons">
+                <a href="/learnings/<%= learning._id %>/edit"><button>Edit Entry</button></a>
+                <form action="/learnings/<%= learning._id %>?_method=DELETE" method="post">
+                    <button>Delete Entry</button>
+                </form>
+                
+            </div>
+        </div>
+    <% } %>
+    </div>
 </body>
 </html>
