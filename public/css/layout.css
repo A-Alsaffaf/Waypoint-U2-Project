@@ -1,0 +1,15 @@
+body {
+    margin: 0%;
+    font-family: var(--font-base);
+}
+
+.app-shell {
+    display: flex;
+    min-height: 100vh;
+}
+
+.page-content {
+    flex: 1;
+    min-width: 0;
+    padding: 24px;
+}
