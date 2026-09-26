@@ -5,7 +5,7 @@ const Todo = require('../models/Todo')
 const isSignedIn = require('../middleware/is-signed-in')
 
 // page render routes
-router.get('/', async (req,res) => {
+router.get('/', isSignedIn, async (req,res) => {
     const allJobs = await Job.find({owner: req.session.user._id, isDeleted: false}) 
     res.render('../views/job/all-jobs.ejs', {allJobs: allJobs})
 })
@@ -35,7 +35,7 @@ router.get('/:jobID/edit', async (req,res) => {
 
 
 // form submission routes
-router.post('/', async (req,res) => {
+router.post('/', isSignedIn, async (req,res) => {
     const todoName = `${req.body.titel}-${req.body.company}-Todo`
     
     const createdJob = await Job.create({
