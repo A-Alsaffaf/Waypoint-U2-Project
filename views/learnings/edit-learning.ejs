@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Learning</title>
+</head>
+<body>
+    <h1>Edit Learning Entry</h1>
+
+    <form action="/learnings/<%= toUpdateLearning._id %>?_method=PUT" method="post">
+        <label for="learningName">Name: </label>
+        <input type="text" id="learningName" name="name" value="<%= toUpdateLearning.name  %>">
+
+        <label for="notes">Notes: </label>
+        <input type="text" id="notes" name="notes" value="<%= toUpdateLearning.notes %>">
+
+        <label for="learningArea">Learning Area:</label>
+        <select name="area" id="learningArea">
+            <% for(area of areaEnums) { %>
+                <% if (area == toUpdateLearning.area){ %>
+                    <option selected value="<%= area %>"><%= area %></option>
+                <% }else { %>
+                    <option value="<%= area %>"><%= area %></option>
+                <% } %>
+            <% } %>
+        </select>
+
+        <label for="resourceLink">Resource URL: </label>
+        <input type="text" name="resourceLink" id="resourceLink" value="<%= toUpdateLearning.resourceLink %>">
+
+        <label for="linkedJobs">Link Jobs: </label>
+        <select multiple name="linkedJobs" id="linkedJobs">
+            <!-- <% for(let job of availableJobs) { %>
+                <% if (job == toUpdateLearning.linkedJobs) %>
+                <option value="<%= job._id %>"><%= job.title  %></option>
+            <% } %> -->
+
+            <% for (let i = 0; i < availableJobs.length; i++) { %>
+                <% if (availableJobs[i] == toUpdateLearning.linkedJobs[i]) { %>
+                    <option selected value="<%= availableJobs[i]._id %>"><%= availableJobs[i].title  %></option>
+                <% } else { %>
+                    <option value="<%= availableJobs[i]._id %>"><%= availableJobs[i].title  %></option>
+                <% } %>
+            <% } %>
+        </select>
+
+        <button type="submit">Save Learning Entry</button>
+    </form>
+</body>
+</html>

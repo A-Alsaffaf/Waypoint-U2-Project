@@ -18,7 +18,7 @@ const learningSchema = new mongoose.Schema({
     resourceLink: {
         type: String,
     },
-    Todo: {
+    todo: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Todo'
     },
