@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="/css/layout.css">
     <link rel="stylesheet" href="/css/sidebar.css">
     <link rel="stylesheet" href="/css/variables.css">
+    <link rel="stylesheet" href="/css/forms.css">
 </head>
 
 <body>
@@ -17,6 +18,27 @@
         <main class="page-content">
             <h1>Create a Todo List</h1>
 
+            <form action="/todos" method="post" id="todoForm">
+                <div class="field">
+                    <label for="todo-name">Name<span class="required-mark">*</span></label>
+                    <input class="input" type="text" name="name" id="todo-name" required>
+                </div>
+
+                <p class="section-label">Checklist</p>
+                <div class="box stack" id="checklistBox">
+                    <div class="checklist-row">
+                        <input class="checklist-input" type="text" name="checkList[0][description]" placeholder="Checklist item" required>
+                        <button type="button" class="icon-btn remove-item">✕</button>
+                    </div>
+                    <button type="button" class="btn-cancel" id="addItemBtn" style="margin-top:8px;">+ Add item</button>
+                </div>
+                
+
+                <div class="form-actions">
+                    <button type="submit" class="btn-save">Save Todo</button>
+                    <a href="/todos" class="btn-cancel">Cancel</a>
+                </div>
+            </form>
         </main>
     </div>
     

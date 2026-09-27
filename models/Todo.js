@@ -4,7 +4,8 @@ const todoSchema = new mongoose.Schema({
     name: {
         type: String,
         default: null,
-        trim: true
+        trim: true,
+        required: true
     },
     checkList: [{
         description: {

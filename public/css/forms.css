@@ -89,7 +89,7 @@ h1 {color: var(--accent);}
 .form-actions{
   display: flex;
   gap: 10px;
-  margin-top: 8px;
+  margin-top: 20px;
 }
 
 .btn-save{
@@ -134,4 +134,108 @@ form{
 
 .notes-field textarea{
   min-height: 160px;
+}
+
+/* Custom Checkbox Styling */
+
+.box {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 12px;
+}
+
+.stack > * {
+  margin-bottom: 10px;
+}
+.stack > *:last-child {
+  margin-bottom: 0;
+}
+
+.section-label {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: .05em;
+  font-weight: 700;
+  color: var(--ink-dim);
+  margin: 18px 0 8px;
+}
+.section-label:first-child { margin-top: 0; }
+
+.checkbox {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 14px;
+  height: 14px;
+  border: 1px solid var(--line);
+  border-radius: 3px;
+  flex: 0 0 auto;
+  background: var(--bg);
+  cursor: pointer;
+  position: relative;
+  margin: 0;
+}
+
+.checkbox:checked {
+  background: var(--accent);
+  border-color: var(--accent);
+}
+
+.checkbox:checked::after {
+  content: "";
+  position: absolute;
+  left: 4px;
+  top: 1px;
+  width: 4px;
+  height: 8px;
+  border: solid var(--bg);
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+
+.checkbox:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* ===== Checklist rows (used in Todo new/edit forms) ===== */
+.checklist-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+.checklist-row:last-child { margin-bottom: 0; }
+
+.checklist-input {
+  flex: 1;
+  height: 38px;
+  padding: 0 12px;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  color: var(--ink);
+  font-size: 14px;
+  outline: none;
+}
+
+.checklist-input:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(159,192,162,0.2);
+}
+
+.icon-btn {
+  width: 38px;
+  height: 38px;
+  flex: 0 0 auto;
+  background: none;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  color: var(--ink-dim);
+  cursor: pointer;
+  font-size: 12px;
+}
+.icon-btn:hover { border-color: var(--accent); color: var(--accent); }
+
+.btn-add{
+
 }
