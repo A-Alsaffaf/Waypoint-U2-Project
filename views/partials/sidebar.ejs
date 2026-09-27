@@ -5,10 +5,34 @@
     </a>
 
     <ul class="sidebar-links">
-        <li><a href="/">Dashboard</a></li>
-        <li><a href="/jobs">Jobs</a></li>
-        <li><a href="/learnings">Learnings</a></li>
-        <li><a href="/todos">Todos</a></li>
+        <li>
+        <a href="/"
+            class="<%= currentPath === '/' ? 'active' : '' %>"
+            <%= currentPath === '/' ? 'aria-current="page"' : '' %>>
+            Dashboard
+        </a>
+        </li>
+        <li>
+        <a href="/jobs"
+            class="<%= currentPath.startsWith('/jobs') ? 'active' : '' %>"
+            <%= currentPath.startsWith('/jobs') ? 'aria-current="page"' : '' %>>
+            Jobs
+        </a>
+        </li>
+        <li>
+        <a href="/learnings"
+            class="<%= currentPath.startsWith('/learnings') ? 'active' : '' %>"
+            <%= currentPath.startsWith('/learnings') ? 'aria-current="page"' : '' %>>
+            Learnings
+        </a>
+        </li>
+        <li>
+        <a href="/todos"
+            class="<%= currentPath.startsWith('/todos') ? 'active' : '' %>"
+            <%= currentPath.startsWith('/todos') ? 'aria-current="page"' : '' %>>
+            Todos
+        </a>
+        </li>
     </ul>
 
     <div class="sidebar-account">

@@ -11,6 +11,7 @@ const connectToDB = require('./db.js')
 // middleware imports
 const isSignedIn = require("./middleware/is-signed-in.js");
 const passUserToView = require("./middleware/pass-user-to-view.js");
+const passCurrentPath = require('./middleware/pass-current-path.js')
 
 // routes Imports
 const authController = require("./routes/auth.routes.js");
@@ -42,6 +43,8 @@ app.use(
   })
 );
 app.use(passUserToView)
+app.use(passCurrentPath)
+
 
 
 
