@@ -4,6 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Create Job Entry</title>
+    <link rel="stylesheet" href="/css/variables.css">
+    <link rel="stylesheet" href="/css/layout.css">
+    <link rel="stylesheet" href="/css/sidebar.css">
+    <link rel="stylesheet" href="/css/forms.css">
 </head>
 <body>
     <div class="app-shell">
@@ -12,55 +16,81 @@
             <h1>Track a New Job Listing</h1>
 
             <form action="/jobs" method="post">
-                <label for="title">Job Title: </label>
-                <input type="text" id="title" name="title">
-                
-                <label for="company">Company: </label>
-                <input type="text" id="company" name="company">
 
-                <label for="jobType">Type: </label>
-                <select name="jobType" id="jobType">
-                    <% for(type of jobTypes) { %>
-                        <option value="<%= type %>"><%= type  %></option>
-                    <% } %>
-                </select>
+                <div class="field-row">
+                    <div class="field">
+                        <label for="title">Job Title<span class="required-mark">*</span></label>
+                        <input type="text" id="title" name="title">
+                    </div>
+                    <div class="field">
+                        <label for="company">Company<span class="required-mark">*</span></label>
+                        <input type="text" id="company" name="company">
+                    </div>
+                </div>
 
-                <label for="status">Status: </label>
-                <select name="status" id="status">
-                    <% for(status of statusElements) { %>
-                        <option value="<%= status %>"><%= status  %></option>
-                    <% } %>
-                </select>
+                <div class="field-row">
+                    <div class="field">
+                        <label for="jobType">Type<span class="required-mark">*</span></label>
+                        <select name="jobType" id="jobType">
+                            <% for(type of jobTypes) { %>
+                                <option value="<%= type %>"><%= type %></option>
+                            <% } %>
+                        </select>
+                    </div>
+                    <div class="field">
+                        <label for="status">Status<span class="required-mark">*</span></label>
+                        <select name="status" id="status">
+                            <% for(status of statusElements) { %>
+                                <option value="<%= status %>"><%= status %></option>
+                            <% } %>
+                        </select>
+                    </div>
+                </div>
 
-                <label for="applicationMethod">Application Method: </label>
-                <select name="applicationMethod" id="applicationMethod">
-                    <% for(method of applicationMethods) { %>
-                        <option value="<%= method %>"><%= method  %></option>
-                    <% } %>
-                </select>
+                <div class="field">
+                    <label for="applicationMethod">Application Method<span class="required-mark">*</span></label>
+                    <select name="applicationMethod" id="applicationMethod">
+                        <% for(method of applicationMethods) { %>
+                            <option value="<%= method %>"><%= method %></option>
+                        <% } %>
+                    </select>
+                </div>
 
-                <label for="salary">Salary: </label>
-                <input type="text" id="salary" name="salary">
+                <div class="optional-section">
+                    <p class="optional-section-label">Additional details (optional)</p>
 
-                <label for="postingLink">Job Posting URL: </label>
-                <input type="text" id="postingLink" name="postingLink">
+                    <div class="field-row">
+                        <div class="field">
+                            <label for="salary">Salary</label>
+                            <input type="text" id="salary" name="salary">
+                        </div>
+                        <div class="field">
+                            <label for="location">Location</label>
+                            <input type="text" id="location" name="location">
+                        </div>
+                    </div>
 
-                <label for="location">Location: </label>
-                <input type="text" id="location" name="location">
+                    <div class="field">
+                        <label for="postingLink">Job Posting URL</label>
+                        <input type="text" id="postingLink" name="postingLink">
+                    </div>
 
-                <label for="todo">Todo: </label>
-                <input type="text" id="todo" name="todo">
+                    <div class="field">
+                        <label for="learningEntries">Learning Entries</label>
+                        <select multiple name="learningEntries" id="learningEntries">
+                            <% for(let learning of learningEntries){ %>
+                                <option value="<%= learning._id %>"><%= learning.name %></option>
+                            <% } %>
+                        </select>
+                        <p class="field-help">Hold Ctrl (Windows) or Cmd (Mac) to select more than one.</p>
+                    </div>
+                </div>
 
-                <!-- <label for="title">Job Title: </label> -->
+                <div class="form-actions">
+                    <button class="btn-save" type="submit">Save Job</button>
+                    <a class="btn-cancel" href="/jobs">Cancel</a>
+                </div>
 
-                <select multiple name="learningEntries" id="">
-                    <% for(let learning of learningEntries){ %>
-                        <option value="<%= learning._id %>"><%= learning.name %></option>
-                    <% } %>
-                </select>
-                
-
-                <button type="submit">Save Job</button>
             </form>
         </main>
     </div>
