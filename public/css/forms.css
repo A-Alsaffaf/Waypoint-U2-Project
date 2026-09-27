@@ -131,3 +131,7 @@ h1 {color: var(--accent);}
 form{
   max-width: 680px;
 }
+
+.notes-field textarea{
+  min-height: 160px;
+}

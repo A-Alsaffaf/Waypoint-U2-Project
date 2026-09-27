@@ -4,10 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edit Job</title>
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="/css/variables.css">
     <link rel="stylesheet" href="/css/layout.css">
     <link rel="stylesheet" href="/css/sidebar.css">
-    <link rel="stylesheet" href="/css/variables.css">
+    <link rel="stylesheet" href="/css/forms.css">
 </head>
 <body>
     <div class="app-shell">
@@ -16,39 +16,52 @@
             <h1>Edit Job Entry</h1>
 
             <form action="/jobs/<%= foundJob._id %>?_method=PUT" method="post">
-                <label for="title">Job Title: </label>
-                <input type="text" id="title" name="title" value="<%= foundJob.title %>">
-                
-                <label for="company">Company: </label>
-                <input type="text" id="company" name="company" value="<%= foundJob.company %>">
 
-                <label for="jobType">Type: </label>
-                <select name="jobType" id="jobType" value="<%= foundJob.jobType %>">
-                    <% for(type of jobTypes) { %>
-                        <% if(type == foundJob.jobType){ %>
-                        <option selected value="<%= type %>"><%= type  %></option>
+                <div class="field-row">
+                    <div class="field">
+                        <label for="title">Job Title<span class="required-mark">*</span></label>
+                        <input type="text" id="title" name="title" value="<%= foundJob.title %>">
+                    </div>
+                    <div class="field">
+                        <label for="company">Company<span class="required-mark">*</span></label>
+                        <input type="text" id="company" name="company" value="<%= foundJob.company %>">
+                    </div>
+                </div>
 
-                        <% }else{ %>
-                        <option value="<%= type %>"><%= type  %></option>
+                <div class="field-row">
+                    <div class="field">
+                        <label for="jobType">Type<span class="required-mark">*</span></label>
+                        <select name="jobType" id="jobType" value="<%= foundJob.jobType %>">
+                            <% for(type of jobTypes) { %>
+                                <% if(type == foundJob.jobType){ %>
+                                <option selected value="<%= type %>"><%= type  %></option>
 
-                        <% } %>
-                    <% } %>
-                </select>
+                                <% }else{ %>
+                                <option value="<%= type %>"><%= type  %></option>
 
-                <label for="status">Status: </label>
-                <select name="status" id="status" value="<%= foundJob.status %>">
-                    <% for(status of statusElements) { %>
-                        <% if(foundJob.status == status) {%>
-                        <option selected value="<%= status %>"><%= status  %></option>
+                                <% } %>
+                            <% } %>
+                        </select>
+                    </div>
 
-                        <% }else{%>
-                        <option value="<%= status %>"><%= status  %></option>
+                    <div class="field">
+                        <label for="status">Status<span class="required-mark">*</span></label>
+                        <select name="status" id="status" value="<%= foundJob.status %>">
+                            <% for(status of statusElements) { %>
+                                <% if(foundJob.status == status) {%>
+                                <option selected value="<%= status %>"><%= status  %></option>
 
-                        <% } %>
-                    <% } %>
-                </select>
+                                <% }else{%>
+                                <option value="<%= status %>"><%= status  %></option>
 
-                <label for="applicationMethod">Application Method: </label>
+                                <% } %>
+                            <% } %>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="field">
+                <label for="applicationMethod">Application Method<span class="required-mark">*</span></label>
                 <select name="applicationMethod" id="applicationMethod" value="<%= foundJob.applicationMethod %>">
                     <% for(method of applicationMethods) { %>
                         <% if (method == foundJob.applicationMethod) { %>
@@ -59,26 +72,41 @@
                         
                     <% } %>
                 </select>
+                </div>
 
-                <label for="salary">Salary: </label>
-                <input type="text" id="salary" name="salary" value="<%= foundJob.salary %>">
+                <div class="optional-section">
+                    <p class="optional-section-label">Additional details (optional)</p>
 
-                <label for="postingLink">Job Posting URL: </label>
-                <input type="text" id="postingLink" name="postingLink" value="<%= foundJob.postingLink %>">
-
-                <label for="location">Location: </label>
-                <input type="text" id="location" name="location" value="<%= foundJob.location %>">
-
-                <!-- <label for="title">Job Title: </label> -->
-
-                <select multiple name="learningEntries" id="" value="<%= foundJob.learningEntries %>">
-                    <% for(let learning of learningEntries){ %>
-                        <option value="<%= learning._id %>"><%= learning.name %></option>
-                    <% } %>
-                </select>
+                    <div class="field-row">
+                        <div class="field">
+                            <label for="salary">Salary: </label>
+                            <input type="text" id="salary" name="salary" value="<%= foundJob.salary %>">
+                        </div>
+                        <div class="field">
+                            <label for="location">Location: </label>
+                            <input type="text" id="location" name="location" value="<%= foundJob.location %>">
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label for="postingLink">Job Posting URL: </label>
+                        <input type="text" id="postingLink" name="postingLink" value="<%= foundJob.postingLink %>">
+                    </div>
+                    
+                    <div class="field">
+                        <label for="learningEntries">Learning Entries</label>
+                        <select multiple name="learningEntries" id="" value="<%= foundJob.learningEntries %>">
+                            <% for(let learning of learningEntries){ %>
+                                <option value="<%= learning._id %>"><%= learning.name %></option>
+                            <% } %>
+                        </select>
+                    </div>
+                </div>
+            
                 
-
-                <button type="submit">Edit Job</button>
+                <div class="form-actions">
+                    <button class="btn-save" type="submit">Edit Job</button>
+                    <a class="btn-cancel" href="/jobs">Cancel</a>
+                </div>
             </form>
         </main>
     </div>

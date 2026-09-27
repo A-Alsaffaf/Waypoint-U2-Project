@@ -4,10 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Create Learning</title>
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="/css/variables.css">
     <link rel="stylesheet" href="/css/layout.css">
     <link rel="stylesheet" href="/css/sidebar.css">
-    <link rel="stylesheet" href="/css/variables.css">
+    <link rel="stylesheet" href="/css/forms.css">
 </head>
 <body>
     <div class="app-shell">
@@ -16,30 +16,40 @@
             <h1>Create a Learning Entry</h1>
 
             <form action="/learnings" method="post">
-                <label for="learningName">Name: </label>
-                <input type="text" id="learningName" name="name">
-
-                <label for="notes">Notes: </label>
-                <input type="text" id="notes" name="notes">
-
-                <label for="learningArea">Learning Area:</label>
+                <div class="field">
+                    <label for="learningName">Name<span class="required-mark">*</span></label>
+                    <input type="text" id="learningName" name="name">
+                </div>
+                <div class="field notes-field">
+                    <label for="notes">Notes<span class="required-mark">*</span></label>
+                    <textarea name="notes" id="notes"></textarea>
+                </div>
+                <div class="field">
+                <label for="learningArea">Learning Area<span class="required-mark">*</span></label>
                 <select name="area" id="learningArea">
                     <% for(area of areaEnums) { %>
                         <option value="<%= area %>"><%= area %></option>
                     <% } %>
                 </select>
+                </div>
 
-                <label for="resourceLink">Resource URL: </label>
-                <input type="text" name="resourceLink" id="resourceLink">
-
-                <label for="linkedJobs">Link Jobs: </label>
-                <select multiple name="linkedJobs" id="linkedJobs">
-                    <% for(let job of availableJobs) { %>
-                        <option value="<%= job._id %>"><%= job.title  %></option>
-                    <% } %>
-                </select>
-
-                <button type="submit">Save Learning Entry</button>
+                <div class="optional-section">
+                    <p class="optional-section-label">Additional details (optional)</p>
+                    <div class="field">
+                        <label for="resourceLink">Resource URL: </label>
+                        <input type="text" name="resourceLink" id="resourceLink">
+                    </div>
+                    <div class="field">
+                        <label for="linkedJobs">Link Jobs: </label>
+                        <select multiple name="linkedJobs" id="linkedJobs">
+                            <% for(let job of availableJobs) { %>
+                                <option value="<%= job._id %>"><%= job.title  %></option>
+                            <% } %>
+                        </select>
+                    </div>
+                </div>
+                <button class="btn-save" type="submit">Save Learning Entry</button>
+                <a class="btn-cancel" href="/jobs">Cancel</a>
             </form>
         </main>
     </div>
