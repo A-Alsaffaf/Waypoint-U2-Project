@@ -1,4 +1,3 @@
-h1 {color: var(--accent);}
 
 /* ===== Field wrapper + label ===== */
 .field {
@@ -243,3 +242,21 @@ form{
   font-size: 14px;
   color: var(--ink);
 }
+
+.page-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 680px;
+}
+
+.btn-delete {
+  background: none;
+  border: 1px solid #c98a80;
+  color: #c98a80;
+  border-radius: 6px;
+  padding: 9px 20px;
+  font-size: 13.5px;
+  cursor: pointer;
+}
+.btn-delete:hover { background: rgba(201,138,128,0.12); }

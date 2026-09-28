@@ -1,12 +1,14 @@
 *, *::before, *::after{
-  box-sizing: border-box;
+    box-sizing: border-box;
 }
 
 body {
     margin: 0%;
     font-family: var(--font-base);
-      background: var(--bg);
+    background: var(--bg);
 }
+
+h1 {color: var(--accent);}
 
 .app-shell {
     display: flex;

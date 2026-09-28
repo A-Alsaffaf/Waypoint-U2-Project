@@ -1,6 +1,7 @@
 // ================== cache elements ==================
 const checklistBox = document.getElementById('checklistBox');
 const addItemBtn = document.getElementById('addItemBtn');
+const deleteForm = document.getElementById('deleteTodoForm');
 
 
 // ================== declare variables ==================
@@ -27,8 +28,15 @@ function removeCheckListRow(event) {
     }
 }
 
+function checkDeleteConfirmation(event) {
+    if (!confirm('Delete this todo?')) event.preventDefault();
+}
+
 
 // ================== event listeners ==================
 
 addItemBtn.addEventListener('click', addNewCheckListRow)
 checklistBox.addEventListener('click', removeCheckListRow)
+if (deleteForm) {
+    deleteForm.addEventListener('submit', checkDeleteConfirmation)
+}

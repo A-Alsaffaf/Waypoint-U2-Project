@@ -14,7 +14,12 @@
     <div class="app-shell">
         <%- include('../partials/sidebar.ejs') %>
         <main class="page-content">
-            <h1><%= foundTodo.name %></h1>
+            <div class="page-header">
+                <h1><%= foundTodo.name %></h1>
+                <form action="/todos/<%= foundTodo._id %>?_method=DELETE" method="post" id="deleteTodoForm">
+                    <button type="submit" class="btn-delete">Delete Todo</button>
+                </form>
+            </div>
 
             <form action="/todos/<%= foundTodo._id %>?_method=PUT" method="post" id="todoForm">
                 <p class="section-label">Checklist</p>

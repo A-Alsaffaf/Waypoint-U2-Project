@@ -36,3 +36,8 @@ router.put('/:todoId', async (req,res) => {
 })
 
 module.exports = router
+
+router.delete('/:todoId', async (req,res) => {
+    const deletedTodo = await Todo.findByIdAndUpdate(req.params.todoId, {isDeleted: true})
+    res.redirect('/todos')
+})
