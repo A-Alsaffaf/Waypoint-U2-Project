@@ -4,22 +4,128 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>All Todos</title>
-    <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="/css/layout.css">
     <link rel="stylesheet" href="/css/sidebar.css">
     <link rel="stylesheet" href="/css/variables.css">
+    <link rel="stylesheet" href="/css/todos.css">
 </head>
 <body>
     <div class="app-shell">
         <%- include('../partials/sidebar.ejs') %>
         <main class="page-content">
-            <div class="list-header">
-                <div>
-                    <h1>Todo Lists</h1>
-                    <p class="page-sub">All Saved Todo Lists</p>
-                </div>
-                <a href="/todos/new" class="btn-new">+ New Todo</a>
+            <div class="todo-cols">
+
+                <!-- ========== JOB TODOS ========== -->
+                <section class="todo-col">
+                    <div class="todo-col-head">
+                        <h2 class="section-label">For Job Entries</h2>
+                        <span class="todo-col-count"><%= jobTodos.length %> todos</span>
+                    </div>
+
+                    <% if (jobTodos.length === 0) { %>
+                        <p class="todo-empty">No job todos yet.</p>
+                    <% } %>
+
+                    <% jobTodos.forEach(todo => { %>
+                        <% let done = 0 %>
+                        <% todo.checkList.forEach(item => { if (item.isChecked) { done++ } }) %>
+                        <% const total = todo.checkList.length %>
+
+                        <a class="todo-row <%= total > 0 && done === total ? 'is-complete' : '' %>" href="/todos/<%= todo._id %>">
+                            <div class="todo-row-top">
+                                <div class="todo-row-text">
+                                    <div class="todo-row-title"><%= todo.entryId.title %></div>
+                                    <div class="todo-row-sub"><%= todo.entryId.company %></div>
+                                </div>
+                                <span class="badge"><%= todo.entryId.status %></span>
+                                <span class="todo-row-chev">›</span>
+                            </div>
+                            <div class="todo-row-bottom">
+                                <progress class="todo-progress" value="<%= done %>" max="<%= total || 1 %>"></progress>
+                                <% if (total === 0) { %>
+                                    <span class="todo-count">No items yet</span>
+                                <% } else { %>
+                                    <span class="todo-count"><%= done %> / <%= total %> done</span>
+                                <% } %>
+                            </div>
+                        </a>
+                    <% }) %>
+                </section>
+
+                <!-- ========== LEARNING TODOS ========== -->
+                <section class="todo-col">
+                    <div class="todo-col-head">
+                        <h2 class="section-label">For Learning Entries</h2>
+                        <span class="todo-col-count"><%= learningTodos.length %> todos</span>
+                    </div>
+
+                    <% if (learningTodos.length === 0) { %>
+                        <p class="todo-empty">No learning todos yet.</p>
+                    <% } %>
+
+                    <% learningTodos.forEach(todo => { %>
+                        <% let done = 0 %>
+                        <% todo.checkList.forEach(item => { if (item.isChecked) { done++ } }) %>
+                        <% const total = todo.checkList.length %>
+
+                        <a class="todo-row <%= total > 0 && done === total ? 'is-complete' : '' %>" href="/todos/<%= todo._id %>">
+                            <div class="todo-row-top">
+                                <div class="todo-row-text">
+                                    <div class="todo-row-title"><%= todo.entryId.name %></div>
+                                    <div class="todo-row-sub"><%= todo.entryId.area %></div>
+                                </div>
+                                <span class="todo-row-chev">›</span>
+                            </div>
+                            <div class="todo-row-bottom">
+                                <progress class="todo-progress" value="<%= done %>" max="<%= total || 1 %>"></progress>
+                                <% if (total === 0) { %>
+                                    <span class="todo-count">No items yet</span>
+                                <% } else { %>
+                                    <span class="todo-count"><%= done %> / <%= total %> done</span>
+                                <% } %>
+                            </div>
+                        </a>
+                    <% }) %>
+                </section>
+
             </div>
+
+            <!-- ========== STANDALONE TODOS ========== -->
+            <section class="todo-standalone">
+                <div class="todo-col-head">
+                    <h2 class="section-label">Standalone</h2>
+                    <span class="todo-col-count"><%= standAloneTodos.length %> todos</span>
+                </div>
+
+                <% if (standAloneTodos.length === 0) { %>
+                    <p class="todo-empty">No standalone todos yet.</p>
+                <% } %>
+
+                <div class="todo-standalone-grid">
+                    <% standAloneTodos.forEach(todo => { %>
+                        <% let done = 0 %>
+                        <% todo.checkList.forEach(item => { if (item.isChecked) { done++ } }) %>
+                        <% const total = todo.checkList.length %>
+
+                        <a class="todo-row <%= total > 0 && done === total ? 'is-complete' : '' %>" href="/todos/<%= todo._id %>">
+                            <div class="todo-row-top">
+                                <div class="todo-row-text">
+                                    <div class="todo-row-title"><%= todo.name %></div>
+                                </div>
+                                <span class="todo-row-chev">›</span>
+                            </div>
+                            <div class="todo-row-bottom">
+                                <progress class="todo-progress" value="<%= done %>" max="<%= total || 1 %>"></progress>
+                                <% if (total === 0) { %>
+                                    <span class="todo-count">No items yet</span>
+                                <% } else { %>
+                                    <span class="todo-count"><%= done %> / <%= total %> done</span>
+                                <% } %>
+                            </div>
+                        </a>
+                    <% }) %>
+                </div>
+            </section>
 
         </main>
     </div>

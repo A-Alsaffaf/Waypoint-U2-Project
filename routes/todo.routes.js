@@ -4,12 +4,16 @@ const isSignedIn = require('../middleware/is-signed-in')
 
 // ================= render pages routes =================
 router.get('/', async (req,res) => {
-    const standAloneTodos = await Todo.find({isDeleted: false, entryType: null}).populate('entryId')
-    const jobTodos = await Todo.find({isDeleted: false, entryType: 'Job'}).populate('entryId')
-    const learningTodos = await Todo.find({isDeleted: false, entryType: 'Learning'}).populate('entryId')
-
-
+    try {
+    const standAloneTodos = await Todo.find({owner: req.session.user._id, isDeleted: false, entryType: null})
+    const jobTodos = await Todo.find({owner: req.session.user._id, isDeleted: false, entryType: 'Job'}).populate('entryId')
+    const learningTodos = await Todo.find({owner: req.session.user._id, isDeleted: false, entryType: 'Learning'}).populate('entryId')
     res.render('../views/todos/all-todos.ejs', {standAloneTodos, jobTodos, learningTodos})
+    }
+    catch (error) {
+        res.send(error)
+        console.log(error);
+    }
 })
 
 router.get('/new', (req,res) => {
