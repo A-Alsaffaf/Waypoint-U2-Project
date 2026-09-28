@@ -13,7 +13,13 @@
     <div class="app-shell">
         <%- include('../partials/sidebar.ejs') %>
         <main class="page-content">
-            <h1>All Jobs Page</h1>
+            <div class="list-header">
+                <div>
+                    <h1>Job Entries</h1>
+                    <p class="page-sub">All saved job listings</p>
+                </div>
+                <a href="/jobs/new" class="btn-new">+ New Job</a>
+            </div>
 
             <div class="entries-container">
             <% for (job of allJobs) { %>
