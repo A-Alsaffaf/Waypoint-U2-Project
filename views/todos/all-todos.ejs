@@ -13,7 +13,13 @@
     <div class="app-shell">
         <%- include('../partials/sidebar.ejs') %>
         <main class="page-content">
-            <h1>All Todos</h1>
+            <div class="list-header">
+                <div>
+                    <h1>Todo Lists</h1>
+                    <p class="page-sub">All Saved Todo Lists</p>
+                </div>
+                <a href="/todos/new" class="btn-new">+ New Todo</a>
+            </div>
 
         </main>
     </div>

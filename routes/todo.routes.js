@@ -12,7 +12,7 @@ router.get('/new', (req,res) => {
 })
 
 router.get('/:todoId', async (req,res) => {
-    const foundTodo = await Todo.findById(req.params.todoId)
+    const foundTodo = await Todo.findOne({_id:req.params.todoId, isDeleted:false})
     res.render('../views/todos/view-edit-todo.ejs', {foundTodo})
 })
 

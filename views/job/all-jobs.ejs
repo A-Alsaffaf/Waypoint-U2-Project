@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="/css/layout.css">
     <link rel="stylesheet" href="/css/sidebar.css">
     <link rel="stylesheet" href="/css/variables.css">
+    <link rel="stylesheet" href="/css/forms.css">
 </head>
 <body>
     <div class="app-shell">
@@ -20,6 +21,28 @@
                 </div>
                 <a href="/jobs/new" class="btn-new">+ New Job</a>
             </div>
+
+            <form action="/jobs" method="get">
+                <select name="status" class="filter-select">
+                    <option value="">Status: All</option>
+                    <% for(let status of statusElements) {%>
+                        <option value="<%= status %>"> <%= status %> </option>
+                    <% } %>
+                </select>
+
+                <select name="type" class="filter-select">
+                    <option value="">Type: All</option>
+                    <% for(let type of jobTypes) { %>
+                        <option value="<%= type %>"> <%= type %> </option>
+                    <% } %>
+                </select>
+
+                <input type="search" name="query" class="filter-search" placeholder="Search title or company">
+
+
+                <button type="submit" class="btn-save">Filter</button>
+                <a href="/jobs" class="btn-cancel">Clear</a>
+            </form>
 
             <div class="entries-container">
             <% for (job of allJobs) { %>

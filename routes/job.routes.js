@@ -4,10 +4,26 @@ const Learning = require('../models/Learning')
 const Todo = require('../models/Todo')
 const isSignedIn = require('../middleware/is-signed-in')
 
+
 // page render routes
 router.get('/', isSignedIn, async (req,res) => {
-    const allJobs = await Job.find({owner: req.session.user._id, isDeleted: false}) 
-    res.render('../views/job/all-jobs.ejs', {allJobs: allJobs})
+    console.log(req.query)
+    const filter = {owner: req.session.user._id, isDeleted: false}
+
+    if(req.query.status) filter.status = req.query.status
+    if(req.query.type) filter.jobType = req.query.type
+    if(req.query.query) filter['$or'] = [
+        {title:{$regex:req.query.query, $options:'i'}},
+        {company:{$regex:req.query.query, $options:'i'}},
+    ]
+    
+
+    console.log(filter)
+
+    const allJobs = await Job.find(filter) 
+    const statusElements = Job.schema.path('status').enumValues
+    const jobTypes = Job.schema.path('jobType').enumValues
+    res.render('../views/job/all-jobs.ejs', {allJobs: allJobs, statusElements, jobTypes})
 })
 
 router.get('/new',async (req,res) => {

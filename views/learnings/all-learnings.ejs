@@ -13,7 +13,13 @@
     <div class="app-shell">
         <%- include('../partials/sidebar.ejs') %>
         <main class="page-content">
-            <h1>All Learning Entries</h1>
+            <div class="list-header">
+                <div>
+                    <h1>Learning Entries</h1>
+                    <p class="page-sub">All saved Learning Entries</p>
+                </div>
+                <a href="/learnings/new" class="btn-new">+ New Learning</a>
+            </div>
 
             <div class="entries-container">
             <% for (learning of allLearnings) { %>
