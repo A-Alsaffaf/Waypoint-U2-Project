@@ -236,6 +236,10 @@ form{
 }
 .icon-btn:hover { border-color: var(--accent); color: var(--accent); }
 
-.btn-add{
+/* ============== view/edit todo */
 
+.checklist-text {
+  flex: 1;
+  font-size: 14px;
+  color: var(--ink);
 }

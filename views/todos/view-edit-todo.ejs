@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View/Edit Todo</title>
+    <script src="/js/todos.js" defer></script>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="/css/layout.css">
+    <link rel="stylesheet" href="/css/sidebar.css">
+    <link rel="stylesheet" href="/css/variables.css">
+    <link rel="stylesheet" href="/css/forms.css">
+</head>
+<body>
+    <div class="app-shell">
+        <%- include('../partials/sidebar.ejs') %>
+        <main class="page-content">
+            <h1>Create a Todo List</h1>
+
+            <form action="/todos" method="post" id="todoForm">
+                <p class="section-label">Checklist</p>
+                <div class="box stack" id="checklistBox">
+                    <% foundTodo.checkList.forEach((item, index) => { %>
+                        <div class="checklist-row">
+                        <input type="checkbox" class="checkbox" name="checkList[<%= index %>][isChecked]" value="true" <%= item.isChecked ? 'checked' : '' %>>
+                        <input type="hidden" name="checkList[<%= index %>][description]" value="<%= item.description %>">
+                        <div class="checklist-text"><%= item.description %></div>
+                        <button type="button" class="icon-btn remove-item">✕</button>
+                        </div>
+                    <% }) %>
+                    <button type="button" class="btn-cancel add-item-btn" id="addItemBtn">+ Add item</button>
+                </div>
+                
+
+                <div class="form-actions">
+                    <button type="submit" class="btn-save">Save Todo</button>
+                    <a href="/todos" class="btn-cancel">Cancel</a>
+                </div>
+            </form>
+        </main>
+    </div>
+</body>
+</html>

@@ -2,12 +2,18 @@ const router = require('express').Router()
 const Todo = require('../models/Todo')
 const isSignedIn = require('../middleware/is-signed-in')
 
+// ================= render pages routes =================
 router.get('/', (req,res) => {
     res.render('../views/todos/all-todos.ejs')
 })
 
 router.get('/new', (req,res) => {
     res.render('../views/todos/create-todo.ejs')
+})
+
+router.get('/:todoId', async (req,res) => {
+    const foundTodo = await Todo.findById(req.params.todoId)
+    res.render('../views/todos/view-edit-todo.ejs', {foundTodo})
 })
 
 router.post('/', async (req,res) => {
