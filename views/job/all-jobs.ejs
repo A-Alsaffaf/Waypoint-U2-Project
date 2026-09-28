@@ -4,11 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>all jobs</title>
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="/css/variables.css">
     <link rel="stylesheet" href="/css/layout.css">
     <link rel="stylesheet" href="/css/sidebar.css">
-    <link rel="stylesheet" href="/css/variables.css">
     <link rel="stylesheet" href="/css/forms.css">
+    <link rel="stylesheet" href="/css/list.css">
 </head>
 <body>
     <div class="app-shell">
@@ -44,23 +44,23 @@
                 <a href="/jobs" class="btn-cancel">Clear</a>
             </form>
 
-            <div class="entries-container">
-            <% for (job of allJobs) { %>
-                <div>
-                    <h2><%= job.title %></h2>
-                    <p><b><%= job.company  %></b></p>
-                    <p><b><%= job.jobType  %></b></p>
-                    <p><b><%= job.status  %></b></p>
+            <div class="stack">
+                <% for (job of allJobs) { %>
+                    <div class="card job-card">
+                        <a href="/jobs/<%= job._id %>" class="job-card-link">
+                            <div class="entry-title"><%= job.title %></div>
+                            <div class="entry-sub"><%= job.company %><% if (job.location) { %> · <%= job.location %><% } %></div>
+                        </a>
 
-                    <div class="entry-buttons">
-                        <a href="/jobs/<%= job._id %>/edit"><button>Edit Entry</button></a>
-                        <form action="/jobs/<%= job._id %>?_method=DELETE" method="post">
-                            <button>Delete Entry</button>
+                        <span class="badge"><%= job.type %></span>
+                        <span class="badge <%= job.status === 'Interview Scheduled' ? 'badge-accent' : '' %>"><%= job.status %></span>
+                        <a href="/jobs/<%= job._id %>/edit" class="icon-btn-sm" title="Edit">✎</a>
+                        <form action="/jobs/<%= job._id %>?_method=DELETE" method="post" class="row-delete-form">
+                            <button type="submit" class="del-btn" title="Delete">✕</button>
                         </form>
-                        
+                            
                     </div>
-                </div>
-            <% } %>
+                <% } %>
             </div>
         </main>
     </div>

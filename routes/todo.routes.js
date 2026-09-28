@@ -3,8 +3,13 @@ const Todo = require('../models/Todo')
 const isSignedIn = require('../middleware/is-signed-in')
 
 // ================= render pages routes =================
-router.get('/', (req,res) => {
-    res.render('../views/todos/all-todos.ejs')
+router.get('/', async (req,res) => {
+    const standAloneTodos = await Todo.find({isDeleted: false, entryType: null}).populate('entryId')
+    const jobTodos = await Todo.find({isDeleted: false, entryType: 'Job'}).populate('entryId')
+    const learningTodos = await Todo.find({isDeleted: false, entryType: 'Learning'}).populate('entryId')
+
+
+    res.render('../views/todos/all-todos.ejs', {standAloneTodos, jobTodos, learningTodos})
 })
 
 router.get('/new', (req,res) => {

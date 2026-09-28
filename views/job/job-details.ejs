@@ -4,16 +4,82 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Job Details</title>
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="/css/variables.css">
     <link rel="stylesheet" href="/css/layout.css">
     <link rel="stylesheet" href="/css/sidebar.css">
-    <link rel="stylesheet" href="/css/variables.css">
+    <link rel="stylesheet" href="/css/forms.css">
+    <link rel="stylesheet" href="/css/list.css">
+    
 </head>
 <body>
     <div class="app-shell">
         <%- include('../partials/sidebar.ejs') %>
         <main class="page-content">
-            <h1>Job-Details</h1>
+            <div class="detail-header">
+                <div>
+                    <h1 class="detail-title"><%= foundJob.title %></h1>
+                    <div class="entry-sub" style="font-size:13px;"><%= foundJob.company %></div>
+                </div>
+                <div class="detail-header-actions">
+                    <span class="badge <%= foundJob.status === 'Interview Scheduled' ? 'badge-accent' : '' %>"><%= foundJob.status %></span>
+                    <a href="/jobs/<%= foundJob._id %>/edit" class="btn-cancel">Edit</a>
+                    <form action="/jobs/<%= foundJob._id %>?_method=DELETE" method="post" class="row-delete-form">
+                        <button type="submit" class="btn-delete">Delete</button>
+                    </form>
+                </div>
+            </div>
+
+            <div class="detail-grid">
+                <div class="box stack detail-info">
+                    <div class="dt-row"><div class="dt">Type</div><div class="dd"><%= foundJob.jobType %></div></div>
+                    <div class="dt-row"><div class="dt">Application Method</div><div class="dd"><%= foundJob.applicationMethod %></div></div>
+                    <% if (foundJob.postingLink) { %>
+                        <div class="dt-row"><div class="dt">Posting Link</div><div class="dd"><a href="<%= foundJob.postingLink %>" target="_blank" rel="noopener">
+                            <%= foundJob.postingLink %></a></div></div>
+                    <% } %>
+                    <% if (foundJob.salary) { %>
+                        <div class="dt-row"><div class="dt">Salary</div><div class="dd"><%= foundJob.salary %></div></div>
+                    <% } %>
+                    <% if (foundJob.location) { %>
+                        <div class="dt-row"><div class="dt">Location</div><div class="dd"><%= foundJob.location %></div></div>
+                    <% } %>
+                </div>
+
+                <div class="detail-side">
+                    <p class="section-label">Checklist</p>
+                    <form action="/todos/<%= foundJob.todo._id %>/items" method="post" class="add-row">
+                        <input type="text" name="description" class="checklist-input" placeholder="Add a checklist item" required>
+                        <input type="hidden" name="redirectTo" value="/jobs/<%= foundJob._id %>">
+                        <button type="submit" class="btn-add">Add</button>
+                    </form>
+                    <div class="box stack">
+                        <% if (foundJob.todo && foundJob.todo.checkList.length) { %>
+                            <% foundJob.todo.checkList.forEach(item => { %>
+                                <div class="checklist-row">
+                                    <div class="checkbox <%= item.isChecked ? 'checked' : '' %>"></div>
+                                    <div class="checklist-text"><%= item.description %></div>
+                                </div>
+                            <% }) %>
+                        <% } else { %>
+                            <p class="placeholder-text">No checklist items yet.</p>
+                        <% } %>
+                    </div>
+                    <% if (foundJob.todo) { %>
+                        <a href="/todos/<%= foundJob.todo._id %>" class="btn-cancel add-item-link">+ Add / edit items</a>
+                    <% } %>
+
+                    <p class="section-label">Linked Learning Entries</p>
+                    <div class="chip-list">
+                        <% if (foundJob.learningEntries && foundJob.learningEntries.length) { %>
+                            <% foundJob.learningEntries.forEach(entry => { %>
+                                <a href="/learnings/<%= entry._id %>" class="chip"><%= entry.name %></a>
+                            <% }) %>
+                        <% } else { %>
+                            <p class="placeholder-text">No linked learning entries.</p>
+                        <% } %>
+                    </div>
+                </div>
+            </div>
 
         </main>
     </div>

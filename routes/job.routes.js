@@ -36,6 +36,8 @@ router.get('/new',async (req,res) => {
 
 router.get ('/:jobId', async (req,res) => {
     const foundJob = await Job.findById(req.params.jobId)
+    await foundJob.populate('todo learningEntries')
+    if (!foundJob) {return res.redirect('/jobs')}
     res.render('../views/job/job-details.ejs', {foundJob})
 })
 
@@ -52,7 +54,7 @@ router.get('/:jobID/edit', async (req,res) => {
 
 // form submission routes
 router.post('/', isSignedIn, async (req,res) => {
-    const todoName = `${req.body.titel}-${req.body.company}-Todo`
+    const todoName = `${req.body.title}-${req.body.company}-Todo`
     
     const createdJob = await Job.create({
         title: req.body.title,
