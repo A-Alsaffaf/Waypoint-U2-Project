@@ -16,6 +16,8 @@ router.get('/:todoId', async (req,res) => {
     res.render('../views/todos/view-edit-todo.ejs', {foundTodo})
 })
 
+// ================= form submission routes =================
+
 router.post('/', async (req,res) => {
     console.log(req.body);
     const createTodo = await Todo.create({
@@ -24,6 +26,13 @@ router.post('/', async (req,res) => {
         owner: req.session.user._id
     })
     res.redirect('/todos')
+})
+
+router.put('/:todoId', async (req,res) => {
+    const updatedTodo = await Todo.findByIdAndUpdate(req.params.todoId, {
+        checkList: req.body.checkList
+    })
+    res.redirect(`/todos/${req.params.todoId}`)
 })
 
 module.exports = router
