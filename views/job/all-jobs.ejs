@@ -21,8 +21,8 @@
                 </div>
                 <a href="/jobs/new" class="btn-new">+ New Job</a>
             </div>
-
-            <form action="/jobs" method="get">
+            <!-- Filter Form -->
+            <form action="/jobs" method="get"> 
                 <select name="status" class="filter-select">
                     <option value="">Status: All</option>
                     <% for(let status of statusElements) {%>

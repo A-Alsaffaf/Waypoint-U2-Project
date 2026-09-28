@@ -7,8 +7,23 @@ const Todo = require('../models/Todo')
 
 // page render routes
 router.get('/', isSignedIn, async (req,res) => {
-    const allLearnings = await Learning.find({owner: req.session.user._id, isDeleted: false}).populate('linkedJobs')
-    res.render('../views/learnings/all-learnings.ejs', {allLearnings})
+    console.log(req.query);
+    
+    const filter = {owner: req.session.user._id, isDeleted: false}
+
+    if (req.query.area) {
+        filter.area = req.query.area
+    }
+    if(req.query.query) {
+        filter.name = {$regex:req.query.query}
+    }
+
+    console.log(filter);
+    
+
+    const areaEnums = Learning.schema.path('area').enumValues
+    const allLearnings = await Learning.find(filter).populate('linkedJobs')
+    res.render('../views/learnings/all-learnings.ejs', {allLearnings, areaEnums})
 })
 
 router.get('/new', async (req,res) => {

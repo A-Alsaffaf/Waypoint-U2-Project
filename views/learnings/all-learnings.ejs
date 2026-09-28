@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="/css/layout.css">
     <link rel="stylesheet" href="/css/sidebar.css">
     <link rel="stylesheet" href="/css/variables.css">
+    <link rel="stylesheet" href="/css/forms.css">
 </head>
 <body>
     <div class="app-shell">
@@ -20,6 +21,21 @@
                 </div>
                 <a href="/learnings/new" class="btn-new">+ New Learning</a>
             </div>
+
+            <!-- Filter Form -->
+            <form action="/learnings" method="get"> 
+                <select name="area" class="filter-select">
+                    <option value="">Area: All</option>
+                    <% for(let area of areaEnums) {%>
+                        <option value="<%= area %>"> <%= area %> </option>
+                    <% } %>
+                </select>
+
+                <input type="search" name="query" class="filter-search" placeholder="Search Name">
+
+                <button type="submit" class="btn-save">Filter</button>
+                <a href="/learnings" class="btn-cancel">Clear</a>
+            </form>
 
             <div class="entries-container">
             <% for (learning of allLearnings) { %>

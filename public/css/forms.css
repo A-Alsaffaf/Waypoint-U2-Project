@@ -260,3 +260,35 @@ form{
   cursor: pointer;
 }
 .btn-delete:hover { background: rgba(201,138,128,0.12); }
+
+/* ============ filters styling ============ */
+
+.filter-bar {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  max-width: none;
+  margin-bottom: 16px;
+}
+
+.filter-select,
+.filter-search {
+  height: 38px;
+  padding: 0 12px;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  color: var(--ink);
+  font-size: 14px;
+  outline: none;
+}
+
+.filter-select { min-width: 150px; }
+.filter-search { flex: 1; min-width: 180px; }
+
+.filter-select:focus,
+.filter-search:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(159,192,162,0.2);
+}
