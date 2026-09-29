@@ -4,11 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>All Learning Entries</title>
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="/css/variables.css">
     <link rel="stylesheet" href="/css/layout.css">
     <link rel="stylesheet" href="/css/sidebar.css">
-    <link rel="stylesheet" href="/css/variables.css">
     <link rel="stylesheet" href="/css/forms.css">
+    <link rel="stylesheet" href="/css/learnings.css">
 </head>
 <body>
     <div class="app-shell">
@@ -37,25 +37,41 @@
                 <a href="/learnings" class="btn-cancel">Clear</a>
             </form>
 
-            <div class="entries-container">
-            <% for (learning of allLearnings) { %>
-                <div>
-                    <h2><%= learning.name %></h2>
-                    <p><b><%= learning.notes  %></b></p>
-                    <p><b><%= learning.area  %></b></p>
-                    <% for (job of learning.linkedJobs) { %>
-                    <p><b><%= job.title  %></b></p>
-                    <% } %>
+            <div class="learning-list">
 
-                    <div class="entry-buttons">
-                        <a href="/learnings/<%= learning._id %>/edit"><button>Edit Entry</button></a>
-                        <form action="/learnings/<%= learning._id %>?_method=DELETE" method="post">
-                            <button>Delete Entry</button>
-                        </form>
-                        
-                    </div>
-                </div>
-            <% } %>
+                <% if (allLearnings.length === 0) { %>
+                    <p class="learning-empty">No learning entries yet.</p>
+                <% } %>
+
+                <% allLearnings.forEach(entry => { %>
+                    <article class="learning-card">
+
+                        <div class="learning-card-main">
+                            <a class="learning-card-title" href="/learnings/<%= entry._id %>"><%= entry.name %></a>
+                            <% if (entry.notes) { %>
+                                <p class="learning-card-notes"><%= entry.notes %></p>
+                            <% } %>
+                        </div>
+
+                        <span class="learning-badge"><%= entry.area %></span>
+
+                        <% if (entry.linkedJobs.length > 0) { %>
+                            <span class="learning-badge learning-badge--accent">
+                                <%= entry.linkedJobs.length %> <%= entry.linkedJobs.length === 1 ? 'job' : 'jobs' %>
+                            </span>
+                        <% } %>
+
+                        <div class="learning-actions">
+                            <a class="learning-action" href="/learnings/<%= entry._id %>/edit" title="Edit">✎</a>
+
+                            <form action="/learnings/<%= entry._id %>?_method=DELETE" method="POST" onsubmit="return confirm('Delete this entry?')">
+                                <button class="learning-action learning-action--delete" type="submit" title="Delete">✕</button>
+                            </form>
+                        </div>
+
+                    </article>
+                <% }) %>
+
             </div>
         </main>
     </div>

@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="/css/layout.css">
     <link rel="stylesheet" href="/css/sidebar.css">
     <link rel="stylesheet" href="/css/forms.css">
-    <link rel="stylesheet" href="/css/list.css">
+    <link rel="stylesheet" href="/css/jobs.css">
 </head>
 <body>
     <div class="app-shell">
@@ -44,23 +44,46 @@
                 <a href="/jobs" class="btn-cancel">Clear</a>
             </form>
 
-            <div class="stack">
-                <% for (job of allJobs) { %>
-                    <div class="card job-card">
-                        <a href="/jobs/<%= job._id %>" class="job-card-link">
-                            <div class="entry-title"><%= job.title %></div>
-                            <div class="entry-sub"><%= job.company %><% if (job.location) { %> · <%= job.location %><% } %></div>
-                        </a>
+            <div class="job-list">
 
-                        <span class="badge"><%= job.type %></span>
-                        <span class="badge <%= job.status === 'Interview Scheduled' ? 'badge-accent' : '' %>"><%= job.status %></span>
-                        <a href="/jobs/<%= job._id %>/edit" class="icon-btn-sm" title="Edit">✎</a>
-                        <form action="/jobs/<%= job._id %>?_method=DELETE" method="post" class="row-delete-form">
-                            <button type="submit" class="del-btn" title="Delete">✕</button>
-                        </form>
-                            
-                    </div>
+                <% if (allJobs.length === 0) { %>
+                    <p class="job-empty">No job entries yet.</p>
                 <% } %>
+
+                <% allJobs.forEach(job => { %>
+                    <article class="job-card">
+
+                        <div class="job-card-main">
+                            <a class="job-card-title" href="/jobs/<%= job._id %>"><%= job.title %></a>
+                            <p class="job-card-notes">
+                                <%= job.company %><% if (job.location) { %> · <%= job.location %><% } %>
+                            </p>
+                        </div>
+
+                        <span class="job-badge"><%= job.jobType %></span>
+
+                        <span class="job-badge <%= job.status === 'Interview Scheduled' ? 'job-badge--accent' : '' %>">
+                            <%= job.status %>
+                        </span>
+
+                        <% if (job.learningEntries.length > 0) { %>
+                            <span class="job-badge job-badge--accent">
+                                <%= job.learningEntries.length %>
+                                <%= job.learningEntries.length === 1 ? 'learning' : 'learnings' %>
+                            </span>
+                        <% } %>
+
+                        <div class="job-actions">
+                            <a class="job-action" href="/jobs/<%= job._id %>/edit" title="Edit">✎</a>
+
+                            <form action="/jobs/<%= job._id %>?_method=DELETE" method="POST" onsubmit="return confirm('Delete this job?')">
+                                <button class="job-action job-action--delete" type="submit" title="Delete">✕</button>
+                            </form>
+                        </div>
+
+                    </article>
+                <% }) %>
+
             </div>
         </main>
     </div>

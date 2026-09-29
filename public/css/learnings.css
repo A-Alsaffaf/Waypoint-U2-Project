@@ -1,0 +1,120 @@
+/* ---------- Stack ---------- */
+.learning-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 18px;
+}
+
+.learning-empty {
+    margin: 0;
+    padding: 26px 10px;
+    border: 1px dashed var(--line);
+    border-radius: 8px;
+    text-align: center;
+    font-size: 12px;
+    color: var(--ink-dim);
+}
+
+/* ---------- Card ---------- */
+.learning-card {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 14px;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+}
+
+.learning-card:hover {
+    background: var(--chip);
+}
+
+.learning-card-main {
+    flex: 1;
+    min-width: 0;
+}
+
+.learning-card-title {
+    font-size: 13.5px;
+    font-weight: 700;
+    color: var(--ink);
+    text-decoration: none;
+}
+
+/* Makes the whole card clickable through the title link */
+.learning-card-title::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+}
+
+/* Notes preview: cut off after 2 lines */
+.learning-card-notes {
+    margin: 3px 0 0;
+    font-size: 11.5px;
+    color: var(--ink-dim);
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+/* ---------- Badges ---------- */
+.learning-badge {
+    flex: 0 0 auto;
+    padding: 2px 8px;
+    border: 1px solid var(--line);
+    border-radius: 20px;
+    font-size: 10.5px;
+    color: var(--ink-dim);
+}
+
+.learning-badge--accent {
+    border-color: var(--accent);
+    color: var(--accent);
+}
+
+/* ---------- Edit / delete buttons ---------- */
+.learning-actions {
+    position: relative;
+    /* sits above the clickable card link */
+    z-index: 1;
+    display: flex;
+    gap: 6px;
+}
+
+.learning-action {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 26px;
+    height: 26px;
+    padding: 0;
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    background: none;
+    font-size: 12px;
+    color: var(--ink-dim);
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.learning-action:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+}
+
+.learning-action--delete:hover {
+    border-color: #b5533c;
+    color: #b5533c;
+}
+
+/* ---------- Small screens ---------- */
+@media (max-width: 720px) {
+    .learning-card {
+        flex-wrap: wrap;
+    }
+}
