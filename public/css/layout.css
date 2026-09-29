@@ -8,6 +8,7 @@ body {
     margin: 0%;
     font-family: var(--font-base);
     background: var(--bg);
+    color: var(--ink)
 }
 
 h1 {

@@ -33,8 +33,10 @@ router.get('/new', async (req,res) => {
 })
 
 router.get('/:learningId', async (req,res) => {
-    const foundLearning = await Learning.findById(req.params.learningId)
-    res.render('../views/learnings/learning-details.ejs', {foundLearning})
+    const baseFilter = {_id: req.params.learningId, isDeleted: false, owner: req.session.user._id}
+    const learning = await Learning.findOne(baseFilter).populate('linkedJobs')
+    const todo = await Todo.findOne({entryType: 'Learning', entryId: learning._id, isDeleted: false})
+    res.render('../views/learnings/learning-details.ejs', {learning, todo})
 })
 
 router.get('/:learningId/edit', async (req,res) => {

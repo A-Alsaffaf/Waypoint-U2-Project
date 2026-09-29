@@ -41,6 +41,13 @@ router.put('/:todoId', async (req,res) => {
     const updatedTodo = await Todo.findByIdAndUpdate(req.params.todoId, {
         checkList: req.body.checkList
     })
+
+    if (req.body.from === 'detail' && updatedTodo.entryType === 'Learning') {
+        return res.redirect(`/learnings/${updatedTodo.entryId}`)
+    }
+    if (req.body.from === 'detail' && updatedTodo.entryType === 'Job') {
+        return res.redirect(`/jobs/${updatedTodo.entryId}`)
+    }
     res.redirect(`/todos/${req.params.todoId}`)
 })
 

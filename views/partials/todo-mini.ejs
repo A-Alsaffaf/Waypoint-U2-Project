@@ -1,0 +1,20 @@
+<%# Needs a local called `todo` %>
+<% let doneCount = 0 %>
+<% todo.checkList.forEach(item => { if (item.isChecked) { doneCount++ } }) %>
+
+<form class="todo-mini" id="todoForm" action="/todos/<%= todo._id %>?_method=PUT" method="post">
+    <input type="hidden" name="from" value="detail">
+
+    <div class="todo-mini-head">
+        <h2 class="todo-mini-title">Todo</h2>
+        <span class="badge"><%= doneCount %> / <%= todo.checkList.length %> done</span>
+    </div>
+
+    <div class="todo-mini-body">
+        <%- include('todo-form', { todo }) %>
+    </div>
+
+    <div class="todo-mini-foot">
+        <button type="submit" class="btn-save">Save Changes</button>
+    </div>
+</form>

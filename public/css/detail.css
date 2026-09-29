@@ -1,0 +1,214 @@
+.detail-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 16px;
+}
+
+.detail-title {
+    margin: 0;
+    font-size: 19px;
+    font-weight: 700;
+}
+
+.detail-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.btn-ghost {
+    display: inline-block;
+    padding: 6px 14px;
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    background: none;
+    font-size: 12.5px;
+    font-weight: 500;
+    color: var(--ink-dim);
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.btn-ghost:hover {
+    border-color: var(--ink);
+    color: var(--ink);
+}
+
+.detail-layout {
+    display: flex;
+    gap: 24px;
+    align-items: flex-start;
+}
+
+.detail-main {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.detail-side {
+    flex: 0 0 230px;
+    max-width: 230px;
+}
+
+@media (max-width: 720px) {
+    .detail-layout {
+        flex-direction: column;
+    }
+
+    .detail-side {
+        flex: 1 1 auto;
+        max-width: none;
+        width: 100%;
+    }
+}
+
+.notes-box {
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 14px 16px;
+}
+
+.notes-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 8px;
+}
+
+.notes-pre {
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+    font-size: 12.5px;
+    line-height: 1.6;
+    margin: 0;
+}
+
+/* Cap the height, then fade the bottom edge */
+.notes-pre-cap {
+    max-height: 12em;
+    overflow: hidden;
+    position: relative;
+}
+
+.notes-pre-cap::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 3.2em;
+    background: linear-gradient(to bottom, transparent, var(--panel));
+}
+
+/* ---------- Section labels ---------- */
+.notes-head .section-label,
+.detail-side .section-label {
+    margin: 0;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--ink-dim);
+}
+
+.detail-side .section-label {
+    margin-top: 18px;
+    margin-bottom: 8px;
+}
+
+.notes-empty {
+    margin: 0;
+    font-size: 12px;
+    color: var(--ink-dim);
+}
+
+/* ---------- Mini todo ---------- */
+.todo-mini {
+    border: 1px solid var(--line);
+    border-radius: 8px;
+}
+
+.todo-mini-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 12px;
+    border-bottom: 1px solid var(--line);
+}
+
+.todo-mini-title {
+    margin: 0;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--ink-dim);
+}
+
+.todo-mini .badge {
+    padding: 2px 8px;
+    border: 1px solid var(--line);
+    border-radius: 20px;
+    font-size: 10.5px;
+    color: var(--ink-dim);
+}
+
+.todo-mini-body {
+    padding: 10px 12px;
+}
+
+.todo-mini-foot {
+    display: flex;
+    gap: 8px;
+    padding: 10px 12px;
+    border-top: 1px solid var(--line);
+}
+
+/* ---------- Details box (right column) ---------- */
+.detail-box {
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 12px;
+}
+
+.detail-row {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    margin-bottom: 10px;
+}
+
+.detail-row:last-child {
+    margin-bottom: 0;
+}
+
+.dt {
+    font-size: 11px;
+    color: var(--ink-dim);
+}
+
+.dd {
+    font-size: 12.5px;
+    overflow-wrap: anywhere;
+}
+
+/* ---------- Linked jobs chips ---------- */
+.chip-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+.chip {
+    padding: 3px 9px;
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    background: var(--chip);
+    font-size: 11px;
+    color: inherit;
+    text-decoration: none;
+}

@@ -4,16 +4,52 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Learning Details</title>
-    <link rel="stylesheet" href="css/style.css">
+    <script src="/js/todos.js" defer></script>
+    <link rel="stylesheet" href="/css/variables.css">
+    <link rel="stylesheet" href="/css/forms.css">
     <link rel="stylesheet" href="/css/layout.css">
     <link rel="stylesheet" href="/css/sidebar.css">
-    <link rel="stylesheet" href="/css/variables.css">
+    <link rel="stylesheet" href="/css/detail.css">
+    
 </head>
 <body>
     <div class="app-shell">
         <%- include('../partials/sidebar.ejs') %>
         <main class="page-content">
-            <h1>Learning Details</h1>
+            <div class="detail-head">
+                <h1 class="detail-title"><%= learning.name %></h1>
+
+                <div class="detail-actions">
+                    <a class="btn-ghost" href="/learnings/<%= learning._id %>/edit">Edit</a>
+
+                    <form action="/learnings/<%= learning._id %>?_method=DELETE" method="POST">
+                        <button class="btn-ghost" type="submit">Delete</button>
+                    </form>
+                </div>
+            </div>
+
+            <div class="detail-layout">
+                <div class="detail-main">
+                    <div class="notes-box">
+                        <div class="notes-head">
+                            <h2 class="section-label">Notes</h2>
+                            <a class="btn-ghost" href="/learnings/<%= learning._id %>/notes">Read full notes →</a>
+                        </div>
+
+                        <% if (learning.notes) { %>
+                            <div class="notes-pre notes-pre-cap"><%= learning.notes %></div>
+                        <% } else { %>
+                            <p class="notes-empty">No notes yet.</p>
+                        <% } %>
+                    </div>
+
+                    <%- include('../partials/todo-mini', { todo }) %>
+                    
+                </div>
+                <div class="detail-side">
+                    <!-- details box, then linked jobs -->
+                </div>
+            </div>
 
         </main>
     </div>

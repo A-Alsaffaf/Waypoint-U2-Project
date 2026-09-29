@@ -1,0 +1,12 @@
+<%# Needs a local called `todo` %>
+<div class="stack" id="checklistBox">
+    <% todo.checkList.forEach((item, index) => { %>
+        <div class="checklist-row">
+            <input type="checkbox" class="checkbox" name="checkList[<%= index %>][isChecked]" value="true" <%= item.isChecked ? 'checked' : '' %>>
+            <input type="hidden" name="checkList[<%= index %>][description]" value="<%= item.description %>">
+            <div class="checklist-text"><%= item.description %></div>
+            <button type="button" class="icon-btn remove-item">✕</button>
+        </div>
+    <% }) %>
+    <button type="button" class="btn-cancel add-item-btn" id="addItemBtn">+ Add item</button>
+</div>
