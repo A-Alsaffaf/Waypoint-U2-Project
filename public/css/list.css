@@ -221,3 +221,58 @@ a.job-card-link:visited {
 .btn-add:hover {
     opacity: 0.92;
 }
+
+/* ===== Job details: main column + mini todo ===== */
+.detail-main {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.todo-mini {
+    border: 1px solid var(--line);
+    border-radius: 8px;
+}
+
+.todo-mini-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 12px;
+    border-bottom: 1px solid var(--line);
+}
+
+.todo-mini-title {
+    margin: 0;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--ink-dim);
+}
+
+.todo-mini-body {
+    padding: 10px 12px;
+}
+
+.todo-mini-foot {
+    display: flex;
+    padding: 10px 12px;
+    border-top: 1px solid var(--line);
+}
+
+.detail-title {
+    font-size: 22px;
+    color: var(--accent);
+}
+
+.detail-header .entry-sub {
+    font-size: 15px;
+}
+
+.detail-header .badge {
+    font-size: 12.5px;
+    padding: 5px 14px;
+}

@@ -6,9 +6,9 @@
     <title>Learning Details</title>
     <script src="/js/todos.js" defer></script>
     <link rel="stylesheet" href="/css/variables.css">
-    <link rel="stylesheet" href="/css/forms.css">
     <link rel="stylesheet" href="/css/layout.css">
     <link rel="stylesheet" href="/css/sidebar.css">
+    <link rel="stylesheet" href="/css/forms.css">
     <link rel="stylesheet" href="/css/detail.css">
     
 </head>
@@ -46,10 +46,37 @@
                     <%- include('../partials/todo-mini', { todo }) %>
                     
                 </div>
-                <div class="detail-side">
-                    <!-- details box, then linked jobs -->
+
+                <div class="detail-box">
+                    <div class="detail-row">
+                        <span class="dt">Area</span>
+                        <span class="dd"><%= learning.area %></span>
+                    </div>
+
+                    <% if (learning.resourceLink) { %>
+                        <div class="detail-row">
+                            <span class="dt">Resource Link</span>
+                            <a class="dd" href="<%= learning.resourceLink %>" target="_blank" rel="noopener"><%= learning.resourceLink %></a>
+                        </div>
+                    <% } %>
+
+                    <h2 class="section-label">Linked Jobs</h2>
+
+                    <% if (learning.linkedJobs.length === 0) { %>
+                        <p class="notes-empty">No linked jobs.</p>
+                    <% } %>
+
+                    <div class="chip-list">
+                        <% learning.linkedJobs.forEach(job => { %>
+                            <% if (!job.isDeleted) { %>
+                                <a class="chip" href="/jobs/<%= job._id %>"><%= job.title %> @ <%= job.company %></a>
+                            <% } %>
+                        <% }) %>
+                    </div>
                 </div>
-            </div>
+                </div>
+
+                
 
         </main>
     </div>
