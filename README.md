@@ -89,3 +89,21 @@ Built as a General Assembly Unit 2 project to demonstrate full-stack CRUD, RESTf
 |   GET  | /todos/:id/edit | View and edit the todo list            |
 |   PUT  | /todos/:id      | Submit form to Update a specific todo  |
 | DELETE | /todos/:id      | Submit form to soft delete the todo    |
+
+## Features
+- **Fitering on:** Jobs and learning entries including a search bar and a select based on the status and type for jobs along with the learning area.
+
+- **Relation Ship Testing:** Using a package called jest, we can use a script to include few tests in order to test our models relationships.
+
+- **Markdown formatted notes:** learning notes can be saved and rendered as MD format in the details page along with it's dedicated page.
+
+- **Minimal Design:** Greate design that matches the theme and feel of the project idea.
+
+## Future Enchantments
+- **CV Upload:** add this feature to have a refrence to multiple version of the resume and link it with the job applications you applied for with that specifc CV.
+- **Email Confirmation:** add 2FA verification via the email for more security and protection. 
+- **Public Learning Entries:** a public page that display the learning entries you want to share with other, other users will be able to leave comments and review the learning entries and their notes. 
+- **Profile Modifcation:** let the user to modify their profile from adding an image to add a title and changing their username along with first, last names.
+- **Admin Role:** to supervise and monitor the public entries, manage the users.
+
+## Credits
