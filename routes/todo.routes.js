@@ -3,7 +3,7 @@ const Todo = require('../models/Todo')
 const isSignedIn = require('../middleware/is-signed-in')
 
 // ================= render pages routes =================
-router.get('/', async (req,res) => {
+router.get('/', isSignedIn, async (req,res) => {
     try {
     const standAloneTodos = await Todo.find({owner: req.session.user._id, isDeleted: false, entryType: null})
     const jobTodos = await Todo.find({owner: req.session.user._id, isDeleted: false, entryType: 'Job'}).populate('entryId')
@@ -16,18 +16,18 @@ router.get('/', async (req,res) => {
     }
 })
 
-router.get('/new', (req,res) => {
+router.get('/new', isSignedIn, (req,res) => {
     res.render('../views/todos/create-todo.ejs')
 })
 
-router.get('/:todoId', async (req,res) => {
+router.get('/:todoId', isSignedIn, async (req,res) => {
     const foundTodo = await Todo.findOne({_id:req.params.todoId, isDeleted:false})
     res.render('../views/todos/view-edit-todo.ejs', {foundTodo})
 })
 
 // ================= form submission routes =================
 
-router.post('/', async (req,res) => {
+router.post('/', isSignedIn, async (req,res) => {
     console.log(req.body);
     const createTodo = await Todo.create({
         name: req.body.name,
@@ -37,7 +37,7 @@ router.post('/', async (req,res) => {
     res.redirect('/todos')
 })
 
-router.put('/:todoId', async (req,res) => {
+router.put('/:todoId', isSignedIn, async (req,res) => {
     const updatedTodo = await Todo.findByIdAndUpdate(req.params.todoId, {
         checkList: req.body.checkList
     })
@@ -51,9 +51,10 @@ router.put('/:todoId', async (req,res) => {
     res.redirect(`/todos/${req.params.todoId}`)
 })
 
-module.exports = router
-
-router.delete('/:todoId', async (req,res) => {
+router.delete('/:todoId', isSignedIn, async (req,res) => {
     const deletedTodo = await Todo.findByIdAndUpdate(req.params.todoId, {isDeleted: true})
     res.redirect('/todos')
 })
+
+module.exports = router
+

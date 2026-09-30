@@ -31,7 +31,7 @@ router.get('/', isSignedIn, async (req,res) => {
     catch (error) {console.log(error);}
 })
 
-router.get('/new', async (req,res) => {
+router.get('/new', isSignedIn, async (req,res) => {
     try {
         const areaEnums = Learning.schema.path('area').enumValues
         const availableJobs = await Job.find({owner: req.session.user._id})
@@ -40,7 +40,7 @@ router.get('/new', async (req,res) => {
     catch (error) {console.log(error);}
 })
 
-router.get('/:learningId', async (req,res) => {
+router.get('/:learningId', isSignedIn, async (req,res) => {
     try {
         const baseFilter = {_id: req.params.learningId, isDeleted: false, owner: req.session.user._id}
         const learning = await Learning.findOne(baseFilter).populate('linkedJobs')
@@ -48,10 +48,10 @@ router.get('/:learningId', async (req,res) => {
         const notes = md.render(learning.notes)
         res.render('../views/learnings/learning-details.ejs', {learning, todo, notes})
     }
-    catch (error) {console.log(error);}
+    catch (error) {console.log("catched Eerror:" + error);}
 })
 
-router.get('/:learningId/edit', async (req,res) => {
+router.get('/:learningId/edit', isSignedIn, async (req,res) => {
     try {
         const toUpdateLearning = await Learning.findById(req.params.learningId)
         const availableJobs = await Job.find({owner: req.session.user._id})
@@ -101,7 +101,7 @@ router.post('/', isSignedIn , async (req,res) => {
     catch (error) {console.log(error);}
 })
 
-router.put('/:learningId', async (req,res) => {
+router.put('/:learningId', isSignedIn, async (req,res) => {
     try {
         const updatedLearning = await Learning.findByIdAndUpdate(req.params.learningId, {
             name: req.body.name,
@@ -116,7 +116,7 @@ router.put('/:learningId', async (req,res) => {
     catch (error) {console.log(error);}
 })
 
-router.delete('/:learningId', async (req,res) => {
+router.delete('/:learningId', isSignedIn, async (req,res) => {
     try {
         const softDeleteEntry = await Learning.findByIdAndUpdate(req.params.learningId, {isDeleted: true})
         res.redirect('/learnings')
