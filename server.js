@@ -55,6 +55,10 @@ app.use('/jobs', jobController)
 app.use('/todos', todoController)
 app.use('/learnings', learningController)
 
+app.use((req, res) => {
+  res.status(404).render('404.ejs');
+});
+
 
 
 // connect to database and listen on Port 3000

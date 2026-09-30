@@ -37,7 +37,7 @@
                         </div>
 
                         <% if (learning.notes) { %>
-                            <div class="notes-pre notes-pre-cap"><%= learning.notes %></div>
+                            <div class="notes-pre notes-pre-cap"><div class="markdown-body"><%- notes %></div></div> <!-- this has to be inline, with no breaking, breaking would create a top gap -->
                         <% } else { %>
                             <p class="notes-empty">No notes yet.</p>
                         <% } %>

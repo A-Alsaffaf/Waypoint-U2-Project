@@ -3,6 +3,8 @@ const Learning = require('../models/Learning')
 const Job = require('../models/Job')
 const isSignedIn = require('../middleware/is-signed-in')
 const Todo = require('../models/Todo')
+const MarkdownIt = require('markdown-it')
+const md = new MarkdownIt()
 
 
 // page render routes
@@ -36,7 +38,8 @@ router.get('/:learningId', async (req,res) => {
     const baseFilter = {_id: req.params.learningId, isDeleted: false, owner: req.session.user._id}
     const learning = await Learning.findOne(baseFilter).populate('linkedJobs')
     const todo = await Todo.findOne({entryType: 'Learning', entryId: learning._id, isDeleted: false})
-    res.render('../views/learnings/learning-details.ejs', {learning, todo})
+    const notes = md.render(learning.notes)
+    res.render('../views/learnings/learning-details.ejs', {learning, todo, notes})
 })
 
 router.get('/:learningId/edit', async (req,res) => {
@@ -44,6 +47,13 @@ router.get('/:learningId/edit', async (req,res) => {
     const availableJobs = await Job.find({owner: req.session.user._id})
     const areaEnums = Learning.schema.path('area').enumValues
     res.render('../views/learnings/edit-learning.ejs', {toUpdateLearning, availableJobs, areaEnums})
+})
+
+router.get('/:learningId/notes', isSignedIn, async (req,res) => {
+    const baseFilter = {_id: req.params.learningId, owner: req.session.user._id, isDeleted: false}
+    const learning = await Learning.findOne(baseFilter)
+    const notes = md.render(learning.notes)
+    res.render('../views/learnings/notes.ejs', {notes})
 })
 
 router.post('/', isSignedIn , async (req,res) => {
