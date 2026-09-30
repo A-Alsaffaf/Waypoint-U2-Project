@@ -7,100 +7,122 @@ const isSignedIn = require('../middleware/is-signed-in')
 
 // page render routes
 router.get('/', isSignedIn, async (req,res) => {
-    console.log(req.query)
-    const filter = {owner: req.session.user._id, isDeleted: false}
+    try {
+        console.log(req.query)
+        const filter = {owner: req.session.user._id, isDeleted: false}
 
-    if(req.query.status) filter.status = req.query.status
-    if(req.query.type) filter.jobType = req.query.type
-    if(req.query.query) filter['$or'] = [
-        {title:{$regex:req.query.query, $options:'i'}},
-        {company:{$regex:req.query.query, $options:'i'}},
-    ]
-    
+        if(req.query.status) filter.status = req.query.status
+        if(req.query.type) filter.jobType = req.query.type
+        if(req.query.query) filter['$or'] = [
+            {title:{$regex:req.query.query, $options:'i'}},
+            {company:{$regex:req.query.query, $options:'i'}},
+        ]
+        
 
-    console.log(filter)
+        console.log(filter)
 
-    const allJobs = await Job.find(filter) 
-    const statusElements = Job.schema.path('status').enumValues
-    const jobTypes = Job.schema.path('jobType').enumValues
-    res.render('../views/job/all-jobs.ejs', {allJobs: allJobs, statusElements, jobTypes})
+        const allJobs = await Job.find(filter) 
+        const statusElements = Job.schema.path('status').enumValues
+        const jobTypes = Job.schema.path('jobType').enumValues
+        res.render('../views/job/all-jobs.ejs', {allJobs: allJobs, statusElements, jobTypes})
+    }
+    catch (error) {console.log(error);}
 })
 
 router.get('/new',async (req,res) => {
-    const statusElements = Job.schema.path('status').enumValues
-    const jobTypes = Job.schema.path('jobType').enumValues
-    const applicationMethods = Job.schema.path('applicationMethod').enumValues
-    const learningEntries = await Learning.find({owner:req.session.user._id})
-    res.render('../views/job/create-job.ejs', {statusElements, jobTypes, applicationMethods, learningEntries})
+    try {
+        const statusElements = Job.schema.path('status').enumValues
+        const jobTypes = Job.schema.path('jobType').enumValues
+        const applicationMethods = Job.schema.path('applicationMethod').enumValues
+        const learningEntries = await Learning.find({owner:req.session.user._id})
+        res.render('../views/job/create-job.ejs', {statusElements, jobTypes, applicationMethods, learningEntries})
+    }
+    catch (error) {console.log(error);}
 })
 
 router.get ('/:jobId', async (req,res) => {
-    const foundJob = await Job.findById(req.params.jobId)
-    await foundJob.populate('todo learningEntries')
-    if (!foundJob) {return res.redirect('/jobs')}
-    res.render('../views/job/job-details.ejs', {foundJob})
+    try {
+        const foundJob = await Job.findById(req.params.jobId)
+        await foundJob.populate('todo learningEntries')
+        if (!foundJob) {return res.redirect('/jobs')}
+        res.render('../views/job/job-details.ejs', {foundJob})
+    }
+    catch (error) {console.log(error);}
 })
 
 router.get('/:jobID/edit', async (req,res) => {
-    const foundJob = await Job.findById(req.params.jobID)
-    const statusElements = Job.schema.path('status').enumValues
-    const jobTypes = Job.schema.path('jobType').enumValues
-    const applicationMethods = Job.schema.path('applicationMethod').enumValues
-    const learningEntries = await Learning.find({owner:req.session.user._id})
-    res.render('../views/job/edit-job.ejs', {statusElements, jobTypes, applicationMethods, learningEntries, foundJob})
+    try{
+        const foundJob = await Job.findById(req.params.jobID)
+        const statusElements = Job.schema.path('status').enumValues
+        const jobTypes = Job.schema.path('jobType').enumValues
+        const applicationMethods = Job.schema.path('applicationMethod').enumValues
+        const learningEntries = await Learning.find({owner:req.session.user._id})
+        res.render('../views/job/edit-job.ejs', {statusElements, jobTypes, applicationMethods, learningEntries, foundJob})
+    }
+    catch (error) {console.log(error);}
 })
 
 
 
 // form submission routes
 router.post('/', isSignedIn, async (req,res) => {
-    const todoName = `${req.body.title}-${req.body.company}-Todo`
-    
-    const createdJob = await Job.create({
-        title: req.body.title,
-        company: req.body.company,
-        jobType: req.body.jobType,
-        status: req.body.status,
-        applicationMethod: req.body.applicationMethod,
-        salary: req.body.salary,
-        postingLink: req.body.postingLink,
-        location: req.body.location,
-        learningEntries: req.body.learningEntries,
-        owner: req.session.user._id
-    })
 
-    const createLinkedTodo = await Todo.create({
-        name: todoName,
-        checkList: [],
-        entryType: "Job",
-        entryId: createdJob._id,
-        owner: req.session.user._id
-    })
+    try{
+        const todoName = `${req.body.title}-${req.body.company}-Todo`
+        
+        const createdJob = await Job.create({
+            title: req.body.title,
+            company: req.body.company,
+            jobType: req.body.jobType,
+            status: req.body.status,
+            applicationMethod: req.body.applicationMethod,
+            salary: req.body.salary,
+            postingLink: req.body.postingLink,
+            location: req.body.location,
+            learningEntries: req.body.learningEntries,
+            owner: req.session.user._id
+        })
 
-    const updateJob = await Job.findByIdAndUpdate(createdJob._id, {
-        todo: createLinkedTodo._id
-    })
-    res.redirect('/jobs')
+        const createLinkedTodo = await Todo.create({
+            name: todoName,
+            checkList: [],
+            entryType: "Job",
+            entryId: createdJob._id,
+            owner: req.session.user._id
+        })
+
+        const updateJob = await Job.findByIdAndUpdate(createdJob._id, {
+            todo: createLinkedTodo._id
+        })
+        res.redirect('/jobs')
+    }
+    catch (error) {console.log(error);}
 })
 
 router.put('/:jobId', isSignedIn , async (req,res) => {
-    const updatedJob = await Job.findByIdAndUpdate(req.params.jobId, {
-        title: req.body.title,
-        company: req.body.company,
-        jobType: req.body.jobType,
-        status: req.body.status,
-        postingLink: req.body.postingLink,
-        salary: req.body.salary,
-        location: req.body.location,
-        applicationMethod: req.body.applicationMethod,
-        learningEntries: req.body.learningEntries,
-    })
-    res.redirect(`/jobs/${req.params.jobId}`)
+    try {
+        const updatedJob = await Job.findByIdAndUpdate(req.params.jobId, {
+            title: req.body.title,
+            company: req.body.company,
+            jobType: req.body.jobType,
+            status: req.body.status,
+            postingLink: req.body.postingLink,
+            salary: req.body.salary,
+            location: req.body.location,
+            applicationMethod: req.body.applicationMethod,
+            learningEntries: req.body.learningEntries,
+        })
+        res.redirect(`/jobs/${req.params.jobId}`)
+    }
+    catch (error) {console.log(error);}
 })
 
 router.delete('/:jobId', async (req,res) => {
-    const softDeletedJob = await Job.findByIdAndUpdate(req.params.jobId, {isDeleted: true})
-    res.redirect('/jobs')
+    try {
+        const softDeletedJob = await Job.findByIdAndUpdate(req.params.jobId, {isDeleted: true})
+        res.redirect('/jobs')
+    }
+    catch (error) {console.log(error);}
 })
 
 
