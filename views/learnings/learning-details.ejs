@@ -21,10 +21,10 @@
                 <h1 class="detail-title"><%= learning.name %></h1>
 
                 <div class="detail-actions">
-                    <a class="btn-ghost" href="/learnings/<%= learning._id %>/edit">Edit</a>
+                    <a class="btn-cancel" href="/learnings/<%= learning._id %>/edit">Edit</a>
 
-                    <form action="/learnings/<%= learning._id %>?_method=DELETE" method="POST">
-                        <button class="btn-ghost" type="submit">Delete</button>
+                    <form action="/learnings/<%= learning._id %>?_method=DELETE" method="POST" onsubmit="return confirm('Delete this entry?')">
+                        <button class="btn-delete" type="submit">Delete</button>
                     </form>
                 </div>
             </div>
