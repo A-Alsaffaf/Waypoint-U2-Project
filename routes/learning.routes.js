@@ -8,70 +8,70 @@ const md = new MarkdownIt()
 
 
 // page render routes
-router.get('/', isSignedIn, async (req,res) => {
+router.get('/', isSignedIn, async (req, res) => {
     try {
         console.log(req.query);
-        
-        const filter = {owner: req.session.user._id, isDeleted: false}
+
+        const filter = { owner: req.session.user._id, isDeleted: false }
 
         if (req.query.area) {
             filter.area = req.query.area
         }
-        if(req.query.query) {
-            filter.name = {$regex:req.query.query}
+        if (req.query.query) {
+            filter.name = { $regex: req.query.query }
         }
 
         console.log(filter);
-        
+
 
         const areaEnums = Learning.schema.path('area').enumValues
         const allLearnings = await Learning.find(filter).populate('linkedJobs')
-        res.render('../views/learnings/all-learnings.ejs', {allLearnings, areaEnums})
+        res.render('../views/learnings/all-learnings.ejs', { allLearnings, areaEnums })
     }
-    catch (error) {console.log(error);}
+    catch (error) { console.log(error); }
 })
 
-router.get('/new', isSignedIn, async (req,res) => {
+router.get('/new', isSignedIn, async (req, res) => {
     try {
         const areaEnums = Learning.schema.path('area').enumValues
-        const availableJobs = await Job.find({owner: req.session.user._id})
-        res.render('../views/learnings/create-learning.ejs', {areaEnums, availableJobs})
+        const availableJobs = await Job.find({ owner: req.session.user._id })
+        res.render('../views/learnings/create-learning.ejs', { areaEnums, availableJobs })
     }
-    catch (error) {console.log(error);}
+    catch (error) { console.log(error); }
 })
 
-router.get('/:learningId', isSignedIn, async (req,res) => {
+router.get('/:learningId', isSignedIn, async (req, res) => {
     try {
-        const baseFilter = {_id: req.params.learningId, isDeleted: false, owner: req.session.user._id}
+        const baseFilter = { _id: req.params.learningId, isDeleted: false, owner: req.session.user._id }
         const learning = await Learning.findOne(baseFilter).populate('linkedJobs')
-        const todo = await Todo.findOne({entryType: 'Learning', entryId: learning._id, isDeleted: false})
+        const todo = await Todo.findOne({ entryType: 'Learning', entryId: learning._id, isDeleted: false })
         const notes = md.render(learning.notes)
-        res.render('../views/learnings/learning-details.ejs', {learning, todo, notes})
+        res.render('../views/learnings/learning-details.ejs', { learning, todo, notes })
     }
-    catch (error) {console.log("catched Eerror:" + error);}
+    catch (error) { console.log("catched Eerror:" + error); }
 })
 
-router.get('/:learningId/edit', isSignedIn, async (req,res) => {
+router.get('/:learningId/edit', isSignedIn, async (req, res) => {
     try {
         const toUpdateLearning = await Learning.findById(req.params.learningId)
-        const availableJobs = await Job.find({owner: req.session.user._id})
+        const availableJobs = await Job.find({ owner: req.session.user._id })
         const areaEnums = Learning.schema.path('area').enumValues
-        res.render('../views/learnings/edit-learning.ejs', {toUpdateLearning, availableJobs, areaEnums})
+        res.render('../views/learnings/edit-learning.ejs', { toUpdateLearning, availableJobs, areaEnums })
     }
-    catch (error) {console.log(error);}
+    catch (error) { console.log(error); }
 })
 
-router.get('/:learningId/notes', isSignedIn, async (req,res) => {
+router.get('/:learningId/notes', isSignedIn, async (req, res) => {
     try {
-        const baseFilter = {_id: req.params.learningId, owner: req.session.user._id, isDeleted: false}
+        const baseFilter = { _id: req.params.learningId, owner: req.session.user._id, isDeleted: false }
         const learning = await Learning.findOne(baseFilter)
         const notes = md.render(learning.notes)
-        res.render('../views/learnings/notes.ejs', {notes})
+        res.render('../views/learnings/notes.ejs', { notes })
     }
-    catch (error) {console.log(error);}
+    catch (error) { console.log(error); }
 })
 
-router.post('/', isSignedIn , async (req,res) => {
+router.post('/', isSignedIn, async (req, res) => {
     try {
         const todoName = `${req.body.name}-${req.body.area}-Todo`
 
@@ -83,6 +83,12 @@ router.post('/', isSignedIn , async (req,res) => {
             linkedJobs: req.body.linkedJobs,
             owner: req.session.user._id
         })
+
+        for (const jobId of createdLearning.linkedJobs) {
+            const job = await Job.findById(jobId)
+            job.learningEntries.push(createdLearning._id)
+            await job.save()
+        }
 
         const createLinkedTodo = await Todo.create({
             name: todoName,
@@ -98,30 +104,55 @@ router.post('/', isSignedIn , async (req,res) => {
 
         res.redirect('/learnings')
     }
-    catch (error) {console.log(error);}
+    catch (error) { console.log(error); }
 })
 
-router.put('/:learningId', isSignedIn, async (req,res) => {
+router.put('/:learningId', isSignedIn, async (req, res) => {
     try {
-        const updatedLearning = await Learning.findByIdAndUpdate(req.params.learningId, {
-            name: req.body.name,
-            notes: req.body.notes,
-            area: req.body.area,
-            resourceLink: req.body.resourceLink,
-            linkedJobs: req.body.linkedJobs
-        })
+        const foundLearning = await Learning.findById(req.params.learningId);
 
+        // 1. unlink this learning from the jobs it had before
+        for (const jobId of foundLearning.linkedJobs) {
+            await Job.findByIdAndUpdate(jobId, { $pull: { learningEntries: foundLearning._id } });
+        }
+
+        // 2. nothing selected means the form sends nothing
+        if (req.body.linkedJobs === undefined) {
+            req.body.linkedJobs = [];
+        }
+
+        // 3. save the new values, and get the updated document back
+        const updatedLearning = await Learning.findByIdAndUpdate(
+            req.params.learningId,
+            {
+                name: req.body.name,
+                notes: req.body.notes,
+                area: req.body.area,
+                resourceLink: req.body.resourceLink,
+                linkedJobs: req.body.linkedJobs,
+            },
+            { new: true }
+        );
+
+        // 4. link it to the jobs it has now
+        for (const jobId of updatedLearning.linkedJobs) {
+            const job = await Job.findById(jobId);
+            job.learningEntries.push(updatedLearning._id);
+            await job.save();
+        }
+
+        res.redirect('/learnings');
+    } catch (error) {
+        console.log(error);
+    }
+});
+
+router.delete('/:learningId', isSignedIn, async (req, res) => {
+    try {
+        const softDeleteEntry = await Learning.findByIdAndUpdate(req.params.learningId, { isDeleted: true })
         res.redirect('/learnings')
     }
-    catch (error) {console.log(error);}
-})
-
-router.delete('/:learningId', isSignedIn, async (req,res) => {
-    try {
-        const softDeleteEntry = await Learning.findByIdAndUpdate(req.params.learningId, {isDeleted: true})
-        res.redirect('/learnings')
-    }
-    catch (error) {console.log(error);}
+    catch (error) { console.log(error); }
 })
 
 

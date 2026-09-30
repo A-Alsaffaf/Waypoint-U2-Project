@@ -8,13 +8,69 @@
     <link rel="stylesheet" href="/css/layout.css">
     <link rel="stylesheet" href="/css/sidebar.css">
     <link rel="stylesheet" href="/css/variables.css">
+    <link rel="stylesheet" href="/css/dashboard.css">
+    <link rel="stylesheet" href="/css/list.css">
+    <link rel="stylesheet" href="/css/forms.css">
     <link rel="shortcut icon" href="/assets/favicon-32.png" type="image/png">
 </head>
 <body>
     <div class="app-shell">
         <%- include('./partials/sidebar.ejs') %>
         <main class="page-content">
-            <h1>Welcome to my Website</h1>
+            <h1 class="page-title">Dashboard</h1>
+            <p class="page-sub">A quick snapshot of your activity</p>
+
+            <div class="stat-grid-sm">
+                <div class="stat-card-sm"><span class="stat-label">Applied</span><span class="stat-num"><%= appliedCount %></span></div>
+                <div class="stat-card-sm"><span class="stat-label">Interviews</span><span class="stat-num"><%= interviewCount %></span></div>
+                <div class="stat-card-sm"><span class="stat-label">Offers</span><span class="stat-num"><%= offerCount %></span></div>
+                <div class="stat-card-sm"><span class="stat-label">Open Todos</span><span class="stat-num"><%= openTodoCount %></span></div>
+            </div>
+
+            <div class="dash-columns">
+                <section class="dash-col">
+                <p class="section-label">Recent Job Entries</p>
+                <div class="box stack">
+                    <% if (recentJobs.length === 0) { %>
+                    <p class="empty-state">No jobs yet. <a href="/jobs/new">Add your first one</a>.</p>
+                    <% } %>
+                    <% for (const job of recentJobs) { %>
+                    <a class="dash-row" href="/jobs/<%= job._id %>">
+                        <span class="entry-title entry-title-sm"><%= job.title %> — <%= job.company %></span>
+                        <span class="badge <%= job.status === 'Interview Scheduled' ? 'badge-accent' : '' %>"><%= job.status %></span>
+                    </a>
+                    <% } %>
+                </div>
+                </section>
+
+                <section class="dash-col">
+                <p class="section-label">Upcoming Todos</p>
+                <div class="box stack">
+                    <% if (upcomingTodos.length === 0) { %>
+                    <p class="empty-state">Nothing to do right now.</p>
+                    <% } %>
+                    <% for (const todo of upcomingTodos) { %>
+                    <a class="dash-row" href="/todos/<%= todo._id %>">
+                        <span class="dash-checkbox"></span>
+                        <span class="dd"><%= todo.checkList[0].description %></span>
+                    </a>
+                    <% } %>
+                </div>
+                </section>
+            </div>
+
+            <p class="section-label">Recent Learning Entries</p>
+            <div class="dash-columns">
+                <% if (recentLearnings.length === 0) { %>
+                <p class="empty-state">No learning entries yet. <a href="/learnings/new">Add one</a>.</p>
+                <% } %>
+                <% for (const learning of recentLearnings) { %>
+                <a class="box dash-col learning-card" href="/learnings/<%= learning._id %>">
+                    <span class="entry-title entry-title-sm"><%= learning.name %></span>
+                    <span class="badge"><%= learning.area %></span>
+                </a>
+                <% } %>
+            </div>
         </main>
     </div>
 </body>

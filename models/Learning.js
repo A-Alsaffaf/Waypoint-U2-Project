@@ -36,7 +36,7 @@ const learningSchema = new mongoose.Schema({
         type: Boolean,
         default: false
     }
-})
+}, {timestamps: true})
 
 const Learning = mongoose.model('Learning', learningSchema)
 
