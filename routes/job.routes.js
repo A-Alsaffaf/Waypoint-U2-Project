@@ -29,7 +29,7 @@ router.get('/', isSignedIn, async (req,res) => {
     catch (error) {console.log(error);}
 })
 
-router.get('/new',async (req,res) => {
+router.get('/new', isSignedIn, async (req,res) => {
     try {
         const statusElements = Job.schema.path('status').enumValues
         const jobTypes = Job.schema.path('jobType').enumValues
@@ -40,7 +40,7 @@ router.get('/new',async (req,res) => {
     catch (error) {console.log(error);}
 })
 
-router.get ('/:jobId', async (req,res) => {
+router.get ('/:jobId', isSignedIn, async (req,res) => {
     try {
         const foundJob = await Job.findById(req.params.jobId)
         await foundJob.populate('todo learningEntries')
@@ -50,7 +50,7 @@ router.get ('/:jobId', async (req,res) => {
     catch (error) {console.log(error);}
 })
 
-router.get('/:jobID/edit', async (req,res) => {
+router.get('/:jobID/edit', isSignedIn, async (req,res) => {
     try{
         const foundJob = await Job.findById(req.params.jobID)
         const statusElements = Job.schema.path('status').enumValues
@@ -117,7 +117,7 @@ router.put('/:jobId', isSignedIn , async (req,res) => {
     catch (error) {console.log(error);}
 })
 
-router.delete('/:jobId', async (req,res) => {
+router.delete('/:jobId', isSignedIn, async (req,res) => {
     try {
         const softDeletedJob = await Job.findByIdAndUpdate(req.params.jobId, {isDeleted: true})
         res.redirect('/jobs')
